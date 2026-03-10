@@ -2326,3 +2326,76 @@ input:checked+.slider:before {
         padding: 1rem;
     }
 }
+
+/* Forgot Password Styles */
+.signup_Main {
+    max-width: 400px;
+    margin: auto;
+}
+
+.forgot-email {
+    margin-bottom: 14px;
+}
+
+.verify-row {
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+    margin-bottom: 18px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.verify-row .cara-btn,
+.verify-row .form-control {
+    height: 48px !important;
+    font-size: 16px !important;
+    border-radius: 14px !important;
+    font-family: 'Spartan', sans-serif !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    padding: 0 18px !important;
+    outline: none;
+}
+
+.verify-row .cara-btn {
+    background: linear-gradient(90deg, #7c87d0 0%, #5b7f6d 100%);
+    color: #fff;
+    width: 135px;
+    min-width: 115px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    border: none;
+    box-shadow: 0 2px 10px rgba(110, 132, 220, 0.10);
+}
+
+.verify-row .form-control {
+    background: #efefef;
+    color: #545454;
+    width: 210px;
+    min-width: 120px;
+    border: 1px solid #dedede;
+    box-shadow: 0 2px 10px rgba(110, 132, 220, 0.05);
+}
+
+.btn-sendcode {
+    width: 135px;
+}
+
+.btn-reset-password {
+    margin-top: 30px;
+    width: 100%;
+}
+
+@media (max-width: 600px) {
+    .verify-row {
+        flex-direction: column;
+    }
+    .verify-row .cara-btn,
+    .verify-row .form-control {
+        width: 100%;
+    }
+
+}
