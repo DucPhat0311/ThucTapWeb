@@ -18,11 +18,11 @@
             <li><a href="${ctx}/about" class="${active=='about'?'active':'' }" ><fmt:message key="nav.about" /></a></li>
             <li><a href="${ctx}/contact" class="${active=='contact'?'active':'' }" ><fmt:message key="nav.contact" /></a></li>
             <li id="lg-bag"><a href="${ctx}/cart"  class="${active=='cart'?'active':'' }"><i class="bi bi-cart"></i></a>
-<%--                <span id="cart_count"    >TODO</span>--%>
+                <%--                <span id="cart_count"    >TODO</span>--%>
 
             </li>
 
-<%--            Khi login thành công thì có đống gì đó như avt, tên, blabla còn ko login thành công thì hiện nút sign up--%>
+            <%--            Khi login thành công thì có đống gì đó như avt, tên, blabla còn ko login thành công thì hiện nút sign up--%>
             <c:choose>
                 <c:when test="${sessionScope.user !=null }">
                     <li class="user-menu">
@@ -53,7 +53,7 @@
             </c:choose>
 
 
-<%--TODO--%>
+            <%--TODO--%>
         </ul>
 
     </div>
@@ -61,4 +61,3 @@
     <%--TODO--%>
 
 </section>
-
