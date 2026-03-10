@@ -437,3 +437,32 @@ tbody tr:hover {
 #toolUser .toolUser_btn .header button:hover::before {
     left: 0;
 }
+
+.user-action-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    margin: 24px 0;
+}
+.user-action-buttons .btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 2px 8px rgba(44,62,80,0.08);
+}
+.btn-danger { background: #e74c3c; }
+.btn-warning { background: #f1c40f; color: #222; }
+.btn-primary { background: #3498db; }
+.btn-success { background: #2ecc71; }
+.user-action-buttons .btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    filter: brightness(1.1);
+}
