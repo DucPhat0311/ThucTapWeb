@@ -1,25 +1,24 @@
 package util;
 
-
 import java.sql.Connection;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.sql.DataSource;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class JDBCUtil {
+    private static final String URL = "jdbc:mysql://localhost:3306/clothestore";
+    private static final String USER = "root";
+    private static final String PASSWORD = "123456";
 
-    private static DataSource ds;
-
-    static {
+    public static Connection getConnection() {
+        Connection conn = null;
         try {
-            Context ctx = new InitialContext();
-            ds = (DataSource) ctx.lookup("java:comp/env/jdbc/mydb");
-        } catch (Exception e) {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            conn = DriverManager.getConnection(URL, USER, PASSWORD);
+        } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-    }
-    public static Connection getConnection() throws Exception {
-        return ds.getConnection();
+        return conn;
     }
 }
+
