@@ -58,6 +58,6 @@
     </div>
 
     <div class="copyright">
-        <p>Bản quyền thuộc về tôi</p>
+        <p>Bản quyền thuộc về tôi!!!</p>
     </div>
 </footer>
