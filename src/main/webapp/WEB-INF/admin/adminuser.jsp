@@ -26,40 +26,12 @@
 </head>
 
 <body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <div class="sidebar-header">
-            <h2>Admin Panel</h2>
-            <p>Quản trị hệ thống</p>
-        </div>
-        <nav class="sidebar-menu">
-            <a href="./adminindex.html" class="menu-item">
-                <i class="fa-solid fa-chart-line"></i>
-                <span>Dashboard</span>
-            </a>
-            <a href="./adminuser.html" class="menu-item active">
-                <i class="fa-solid fa-users"></i>
-                <span>User</span>
-            </a>
-            <a href="./adminproducts.html" class="menu-item">
-                <i class="fa-solid fa-box"></i>
-                <span>Products</span>
-            </a>
-            <a href="./adminorder.html" class="menu-item">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span>Order</span>
-            </a>
-            <a href="./index.html" class="menu-item">
-                <i class="fa-solid fa-globe"></i>
-                <span>Website</span>
-            </a>
-            <a href="#" class="menu-item">
-                <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                <span>Sign out</span>
-            </a>
-        </nav>
-    </div>
- <!-- Main Content -->
+
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<fmt:setLocale value="vi_VN"/>
+<jsp:include page="/WEB-INF/includes/_SidebarAdmin.jsp"></jsp:include>
+
+<!-- Main Content -->
     <div class="main-content">
         <!-- Header -->
         <div class="header">
