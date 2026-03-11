@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" isELIgnored="false"%>
 
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -90,8 +90,8 @@
         </div>
         <a href="${pageContext.request.contextPath}/shop?action=SProduct&productID=${p.productID}&type=${p.categoryID}"><i class="bi bi-cart cart"></i></a>
       </div>
-
     </c:forEach>
+
   </div>
 </section>
 
@@ -105,8 +105,25 @@
   <h2><fmt:message key="home.newArrivals.title" /></h2>
   <p><fmt:message key="home.newArrivals.desc" /></p>
   <div class="pro-container">
-
-<%--  TODO--%>
+    <c:forEach var ="p" items="${requestScope.Product1 }" begin="0" end="7">
+      <div class="pro">
+        <img src="${ctx}${p.img}" alt="">
+        <div class="des">
+          <span>adidas</span>
+          <h5>${p.productName }</h5>
+          <div class="star">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+            <i class="fas fa-star"></i>
+          </div>
+          <fmt:setLocale value="vi_VN"/>
+          <h4><fmt:formatNumber value="${p.price }" pattern="#,##0 VNĐ"/></h4>
+        </div>
+        <a href="${pageContext.request.contextPath}/shop?action=SProduct&productID=${p.productID}&type=${p.categoryID}"><i class="bi bi-cart cart"></i></a>
+      </div>
+    </c:forEach>
   </div>
 </section>
 
