@@ -1,0 +1,6 @@
+***********!Project sử dụng MySQL!****************
+***********các bước sử dụng database****************
+ step 1: Khởi động mysql
+ step 2: Open file createTable.sql sau đó bấm chạy
+ step 3: open file insertData.sql sau đó bấm chạy
+ step 4: truy cập Project clothestore -> src -> webapp -> META-INF -> cấu hình lại tài khoản MySQL
