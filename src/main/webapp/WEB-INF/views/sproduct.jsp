@@ -68,7 +68,7 @@
         <h4>${sproduct.productName }</h4>
         <fmt:setLocale value="vi_VN"/>
 
-        <h2 id="displayPrice"><fmt:formatNumber value="${sproduct.price }" pattern="#,##0 VNĐ"/></h2>
+        <h2 id="displayPrice"><fmt:formatNumber value="${sproduct.price}" pattern="#,##0 VNĐ"/></h2>
         <div class="d-flex flex-row">
             <div class="d-flex flex-row align-items-center">
                 <p class="me-3 p-2 mt-2"><fmt:message key="product.size"/>: </p>
@@ -133,7 +133,7 @@
                         <i class="fas fa-star"></i>
                     </div>
                     <fmt:setLocale value="vi_VN"/>
-                    <h4><fmt:formatNumber value="${rq.price }" pattern="#,##0 VNĐ"/></h4>
+                    <h4><fmt:formatNumber value="${rq.price}" pattern="#,##0 VNĐ"/></h4>
                 </div>
                 <a href="${pageContext.request.contextPath}/shop?action=SProduct&productID=${rq.productID}&type=${rq.categoryID}"><i class="bi bi-cart cart"></i></a>
             </div>
