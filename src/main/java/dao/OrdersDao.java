@@ -2,11 +2,15 @@ package dao;
 
 import model.Order;
 import model.OrderDetail;
+import model.ProductVariants;
+import model.Products;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrdersDao extends BaseDao {
     public int insertOrders(Order order) {
@@ -52,5 +56,45 @@ public class OrdersDao extends BaseDao {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+    public List<OrderDetail> getProductFromOrderDetails(int orderID) {
+        List<OrderDetail> od = new ArrayList<OrderDetail>();
+        OrderDetail od1 = null;
+        String sql = "SELECT od.*, p.productsName, p.img, pv.size FROM order_details od "
+                + "JOIN products p ON p.productsID = od.productID "
+                + "JOIN products_variants pv ON pv.variantID = od.variantID WHERE od.orderID = ?";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setInt(1, orderID);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                od1 = new OrderDetail();
+                od1.setOrderID(rs.getInt("orderID"));
+                od1.setOrderDetailID(rs.getInt("orderDetailID"));
+                od1.setProductID(rs.getInt("productID"));
+                od1.setQuantity(rs.getInt("quantity"));
+                od1.setVariantID(rs.getInt("variantID"));
+                od1.setPrice(rs.getBigDecimal("price"));
+
+                Products p = new Products();
+                p.setImg(rs.getString("img"));
+                p.setProductName(rs.getString("productsName"));
+
+                ProductVariants pv = new ProductVariants();
+                pv.setSize(rs.getString("size"));
+
+                od1.setProduct(p);
+                od1.setVariant(pv);
+
+                od.add(od1);
+            }
+
+            return od;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }
