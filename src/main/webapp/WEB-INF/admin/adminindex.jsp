@@ -82,7 +82,7 @@
         </div>
 
         <!-- Main Grid -->
-        <div class="main-grid divide">
+        <div class="main-grid">
             <!-- Recent Orders -->
             <div class="card">
                 <div class="card-header">
@@ -123,49 +123,8 @@
                     </tbody>
                 </table>
             </div>
-
-            <!-- Recent Activity -->
-            <div class="card">
-                <div class="card-header">
-                    <h3>Hoạt động gần đây</h3>
-                </div>
-                <ul class="activity-list">
-                    <li class="activity-item">
-                        <div class="activity-icon blue"><i class="fa-solid fa-user-plus"></i></div>
-                        <div class="activity-info">
-                            <h4>Khách hàng mới đăng ký</h4>
-                            <p>Trần Thị B vừa tạo tài khoản mua sắm</p>
-                            <p>5 phút trước</p>
-                        </div>
-                    </li>
-                    <li class="activity-item">
-                        <div class="activity-icon green"><i class="fa-solid fa-check-circle"></i></div>
-                        <div class="activity-info">
-                            <h4>Đơn hàng hoàn thành</h4>
-                            <p>Đơn hàng #ORD-002 đã giao thành công cho khách</p>
-                            <p>15 phút trước</p>
-                        </div>
-                    </li>
-                    <li class="activity-item">
-                        <div class="activity-icon orange"><i class="fa-solid fa-box"></i></div>
-                        <div class="activity-info">
-                            <h4>Thêm sản phẩm mới</h4>
-                            <p>Đã thêm 3 mẫu áo thun mới vào cửa hàng</p>
-                            <p>1 giờ trước</p>
-                        </div>
-                    </li>
-                    <li class="activity-item">
-                        <div class="activity-icon blue"><i class="fa-solid fa-comments"></i></div>
-                        <div class="activity-info">
-                            <h4>Đánh giá sản phẩm</h4>
-                            <p>Có 2 đánh giá mới về áo sơ mi nam</p>
-                            <p>2 giờ trước</p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
         </div>
-        
+
         <!-- Charts Section -->
         <div class="charts-section">
             <!-- Revenue Chart -->
