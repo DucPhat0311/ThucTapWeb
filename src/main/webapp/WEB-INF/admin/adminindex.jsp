@@ -54,28 +54,28 @@
             <div class="stat-card">
                 <div class="stat-info">
                     <h3>Tổng người dùng</h3>
-                    <p>2,543</p>
+                    <p>${ttu}</p>
                 </div>
                 <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
             </div>
             <div class="stat-card">
                 <div class="stat-info">
                     <h3>Doanh thu</h3>
-                    <p>₫45.2M</p>
+                    <p><fmt:formatNumber value="${rev }" pattern="#,##0 VNĐ"/></p>
                 </div>
                 <div class="stat-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
             </div>
             <div class="stat-card">
                 <div class="stat-info">
                     <h3>Đơn hàng</h3>
-                    <p>1,234</p>
+                    <p>${tto }</p>
                 </div>
                 <div class="stat-icon"><i class="fa-solid fa-cart-shopping"></i></div>
             </div>
             <div class="stat-card">
                 <div class="stat-info">
                     <h3>Sản phẩm</h3>
-                    <p>856</p>
+                    <p>${ttp }</p>
                 </div>
                 <div class="stat-icon"><i class="fa-solid fa-box"></i></div>
             </div>
@@ -87,7 +87,7 @@
             <div class="card">
                 <div class="card-header">
                     <h3>Đơn hàng gần đây</h3>
-                    <a href="#" class="view-all">Xem tất cả →</a>
+                    <a href="${ctx }/admin/order" class="view-all">Xem tất cả →</a>
                 </div>
                 <table>
                     <thead>
@@ -101,39 +101,25 @@
                         </tr>
                     </thead>
                     <tbody>
+                        
+                    <c:forEach var ="o" items="${oor }">
                         <tr>
-                            <td>#ORD-001</td>
-                            <td>Nguyễn Văn A</td>
-                            <td>Áo thun nam basic</td>
-                            <td>₫199.000</td>
-                            <td>2</td>
-                            <td><span class="badge success">Hoàn thành</span></td>
+                            <td>#ORD-${o.orderID }</td>
+                            <td>${o.user.firstName }  ${o.user.lastName }</td>
+                            <td>${o.createdAt }</td>
+                            <td><fmt:formatNumber value="${o.totalAmount }" pattern="#,##0 VNĐ"/></td>
+                            <td >${o.paymentMethod }</td>
+                            <td>
+                            	<c:choose>
+                            		<c:when test="${o.status =='SUCCESS' }">   <span class="badge text-bg-success">SUCCESS</span></c:when>
+                            		<c:when test="${o.status =='PENDING' }">   <span class="badge text-bg-secondary">PROCESSING</span></c:when>
+                            		<c:when test="${o.status =='CANCEL' }">   <span class="badge text-bg-danger">CANCEL</span></c:when>
+                            	<c:when test="${o.status =='SHIPPING' }">   <span class="badge text-bg-warning">SHIPPING</span></c:when>
+                            		
+                            	</c:choose>
+                          </td>
                         </tr>
-                        <tr>
-                            <td>#ORD-002</td>
-                            <td>Trần Thị B</td>
-                            <td>Đầm maxi hoa</td>
-                            <td>₫350.000</td>
-                            <td>1</td>
-                            <td><span class="badge pending">Đang xử lý</span></td>
-                        </tr>
-                        <tr>
-                            <td>#ORD-003</td>
-                            <td>Lê Văn C</td>
-                            <td>Quần jeans nữ</td>
-                            <td>₫420.000</td>
-                            <td>1</td>
-                            <td><span class="badge success">Hoàn thành</span></td>
-                        </tr>
-
-                        <tr>
-                            <td>#ORD-004</td>
-                            <td>Phạm Thị D</td>
-                            <td>Áo sơ mi trắng</td>
-                            <td>₫250.000</td>
-                            <td>3</td>
-                            <td><span class="badge cancelled">Đã hủy</span></td>
-                        </tr>
+                      </c:forEach>
                     </tbody>
                 </table>
             </div>
@@ -179,6 +165,7 @@
                 </ul>
             </div>
         </div>
+        
         <!-- Charts Section -->
         <div class="charts-section">
             <!-- Revenue Chart -->
