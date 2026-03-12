@@ -1,6 +1,7 @@
 package dao;
 
 import model.Order;
+import model.OrderDetail;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,5 +36,21 @@ public class OrdersDao extends BaseDao {
             e.printStackTrace();
         }
         return -1;
+    }
+    public void insertOrdersDetails(OrderDetail order) {
+        String sql = "INSERT INTO order_details(orderID,productID,quantity,variantID,price) VALUES(?,?,?,?,?)";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setInt(1, order.getOrderID());
+            ps.setInt(2, order.getProductID());
+            ps.setInt(3, order.getQuantity());
+            ps.setInt(4, order.getVariantID());
+            ps.setBigDecimal(5, order.getPrice());
+
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
