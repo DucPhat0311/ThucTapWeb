@@ -72,18 +72,7 @@
         <div class="d-flex flex-row">
             <div class="d-flex flex-row align-items-center">
                 <p class="me-3 p-2 mt-2"><fmt:message key="product.size"/>: </p>
-                <c:if test="${empty getVariants}"> <span class="opacity-50" >Out Stock</span></c:if>
-                <c:if test="${not empty getVariants}">
-
-                    <select id="selectTagSize"  >
-                        <c:forEach var="v" items="${getVariants}">
-                            <option value="${v.size}" data-productid="${sproduct.productID }" data-variantid="${v.variantID}"
-                                    data-stock="${v.stock }" data-final-price = "${v.priceAdjustment + sproduct.price}"
-                                    <c:if test="${v.stock <= 0}">disabled</c:if>>${v.size}<c:if test="${v.stock <= 0}">- Out stock</c:if></option>
-                        </c:forEach>
-
-                    </select>
-                </c:if>
+<%--             ToDO--%>
             </div>
 
         </div>
@@ -94,8 +83,7 @@
         </div>
 
         <div>
-            <button class="normal" id="btn_AddToCart" ${empty getVariants?'disabled':'' } onclick="addToCart()"><fmt:message key="product.add_to_cart"/></button>
-
+            <button class="normal" id="btn_AddToCart" ><fmt:message key="product.add_to_cart"/></button>
         </div>
 
 
