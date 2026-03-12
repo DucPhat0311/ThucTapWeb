@@ -3,7 +3,10 @@ package dao;
 import model.User;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.time.LocalDate;
 
 public class UserDao extends BaseDao {
 
@@ -29,5 +32,37 @@ public class UserDao extends BaseDao {
             e.printStackTrace();
         }
         return result > 0;
+    }
+    public User selectUserByUserID(int userID) {
+        String sql = "SELECT * FROM USERS WHERE userID=?";
+
+        try (Connection conn = getConnection(); PreparedStatement pst = conn.prepareStatement(sql);) {
+
+            pst.setInt(1, userID);
+            ResultSet result = pst.executeQuery();
+            User user = new User();
+
+            while (result.next()) {
+                user.setIdUser(result.getInt("userID"));
+                user.setFirstName(result.getString("firstName"));
+                user.setLastName(result.getString("lastName"));
+                user.setEmail(result.getString("email"));
+
+                user.setVerify((result.getInt("verify") == 1) ? true : false);
+                user.setUsername(result.getString("username"));
+                user.setPassword(result.getString("password"));
+                Date getBirthdate = result.getDate("birthday");
+                LocalDate birthDate = (getBirthdate == null ? null : getBirthdate.toLocalDate());
+
+                user.setBirthday(birthDate);
+                user.setGender(result.getInt("gender"));
+            }
+            return user;
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+
+        }
+        return null;
     }
 }
