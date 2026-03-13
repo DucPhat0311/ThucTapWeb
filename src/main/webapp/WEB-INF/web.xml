@@ -5,6 +5,9 @@
 <web-app>
   <display-name>Web Application</display-name>
 
+    <welcome-file-list>
+        <welcome-file>home</welcome-file>
+    </welcome-file-list>
 
 </web-app>
 
