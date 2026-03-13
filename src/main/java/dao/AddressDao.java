@@ -62,4 +62,32 @@ public class AddressDao extends BaseDao {
         }
         return -1;
     }
+
+    public int isFirstAddress(int userID) {
+        String sql = "SELECT COUNT(*) FROM address WHERE userID = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setInt(1, userID);
+            ResultSet rs = ps.executeQuery();
+
+            rs.next();
+            return rs.getInt(1);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public boolean deleteAddressByID( int id ) {
+        String sql = "delete FROM address where addressID=?";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setInt(1, id);
+
+            int result = ps.executeUpdate();
+            return result >0;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+
+        }
+    }
 }
