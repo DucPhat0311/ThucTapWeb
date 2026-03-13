@@ -98,4 +98,37 @@ public class UserDao extends BaseDao {
         }
 
     }
+    public User getFullName(String username) {
+        String sql = "SELECT * FROM USERS WHERE username=?";
+
+        try (Connection conn = getConnection(); PreparedStatement pst = conn.prepareStatement(sql);) {
+
+            pst.setString(1, username);
+            ResultSet result = pst.executeQuery();
+            User user = new User();
+            while (result.next()) {
+                user.setIdUser(result.getInt("userID"));
+                user.setFirstName(result.getString("firstName"));
+                user.setLastName(result.getString("lastName"));
+                user.setEmail(result.getString("email"));
+                // user.setAddress(result.getInt("address"));
+
+                user.setVerify((result.getInt("verify") == 1) ? true : false);
+                user.setUsername(result.getString("username"));
+                user.setPassword(result.getString("password"));
+                Date getBirthdate = result.getDate("birthday");
+                LocalDate birthDate = (getBirthdate == null ? null : getBirthdate.toLocalDate());
+                user.setRole(result.getInt("role"));
+                user.setBirthday(birthDate);
+                user.setGender(result.getInt("gender"));
+                user.setStatus(result.getInt("status"));
+            }
+            return user;
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+
+        }
+        return null;
+    }
 }
