@@ -12,5 +12,26 @@ public class CookieUtil {
     private static final String REMEMBER_COOKIE = "remember_me";
     private static final int COOKIE_AGE = 30 * 24 * 60 * 60; // 30 ngày
 
+    // Lưu cookie đăng nhập khi chọn "Remember Me"
+    public static void saveLoginInfo(HttpServletResponse response, String id, String token, boolean remember) {
+        if (remember) {
+            Cookie userCookie = new Cookie(USER_ID, id);
+            Cookie tokenCookie = new Cookie(TOKEN, token);
+            Cookie rememberCookie = new Cookie(REMEMBER_COOKIE, "checked");
 
+            userCookie.setMaxAge(COOKIE_AGE);
+            tokenCookie.setMaxAge(COOKIE_AGE);
+            rememberCookie.setMaxAge(COOKIE_AGE);
+
+            userCookie.setPath("/");
+            tokenCookie.setPath("/");
+            rememberCookie.setPath("/");
+
+            response.addCookie(userCookie);
+            response.addCookie(tokenCookie);
+            response.addCookie(rememberCookie);
+        } else {
+            clearLoginInfo(response);
+        }
+    }
 }
