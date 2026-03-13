@@ -11,7 +11,7 @@ import model.Products;
 
 public class ProductVariantsDao extends BaseDao {
 
-
+    // lấy tất cả variant dựa vào id sp nào đó
     public List<ProductVariants> SelectByProductIDInProductVariants(int id) {
         // TODO Auto-generated method stub
         ProductVariants productVariants = null;
@@ -39,4 +39,29 @@ public class ProductVariantsDao extends BaseDao {
         return list;
     }
 
+    // lấy thông tin chi tiết biến thể đó và phải ACTive (client)
+    public ProductVariants selectById(int variantID) {
+        ProductVariants variant = null;
+
+        String sql = "SELECT * FROM products_variants WHERE variantID = ? AND Status='active'";
+
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, variantID);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                variant = new ProductVariants();
+                variant.setVariantID(rs.getInt("variantID"));
+                variant.setProductID(rs.getInt("productID"));
+                variant.setSize(rs.getString("size"));
+                variant.setPriceAdjustment(rs.getBigDecimal("priceAdjustment"));
+                variant.setStock(rs.getInt("stock"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return variant;
+    }
 }
