@@ -11,10 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import dao.ProductVariantsDao;
 import dao.ProductsDao;
-import model.Cart;
-import model.CartItems;
-import model.ProductVariants;
-import model.Products;
+import model.*;
 
 @WebServlet("/cart/*")
 public class CartController extends HttpServlet {
@@ -29,6 +26,7 @@ public class CartController extends HttpServlet {
         String path = request.getPathInfo();
 
         HttpSession session = request.getSession();
+        UserSession userSession = (UserSession) session.getAttribute("user");
 
         System.out.println("Session ID hiện tại: " + session.getId());
 
