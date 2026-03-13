@@ -33,10 +33,11 @@
 
 <!-- Main Content -->
     <div class="main-content">
+
         <!-- Header -->
         <div class="header">
             <div class="header-left">
-                <h1>User</h1>
+                <h1>Khách hàng</h1>
             </div>
             <div class="header-right">
 
@@ -47,13 +48,12 @@
             </div>
         </div>
 
-
         <!-- Main Grid -->
         <div class="main-grid">
-            <!-- Recent Orders -->
+ 
             <div class="card">
                 <div class="card-header">
-                    <h3>List user</h3>
+                    <h3>Danh sách khách hàng</h3>
                     <div class="search-box">
                         <input type="text" placeholder="Tìm kiếm...">
                     </div>
@@ -70,98 +70,44 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>#User-001</td>
-                                <td>Nguyễn Văn A</td>
-                                <td>example@gmail.com</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
-                            <tr>
-                                <td>#User-002</td>
-                                <td>Trần Thị B</td>
-                                <td>example@gmail.com</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
-                            <tr>
-                                <td>#User-003</td>
-                                <td>Lê Văn C</td>
-                                <td>example@gmail.com</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
-                            <tr>
-                                <td>#User-004</td>
-                                <td>Phạm Thị D</td>
-                                <td>example@gmail.com</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
-                            <tr>
-                                <td>#User-004</td>
-                                <td>Phạm Thị D</td>
-                                <td>example@gmail.com</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
-                            <tr>
-                                <td>#User-004</td>
-                                <td>Phạm Thị D</td>
-                                <td>example@gmail.com</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
-                            <tr>
-                                <td>#User-004</td>
-                                <td>Phạm Thị D</td>
-                                <td>example@gmail.com</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
-                            <tr>
-                                <td>#User-004</td>
-                                <td>Phạm Thị D</td>
-                                <td>example@gmail.com</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
-                            <tr>
-                                <td>#User-004</td>
-                                <td>Phạm Thị D</td>
-                                <td>example@gmail.com</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
-                            <tr>
-                                <td>#User-004</td>
-                                <td>Phạm Thị D</td>
-                                <td>example@gmail.com</td>
-                                <td>0</td>
-                                <td>0</td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
+                       <c:forEach var="u" items="${userList}">
+                           <tr>
+                              <td>#User-${u.idUser}</td>
+                              <td>${u.firstName } ${u.lastName }</td>
+                              <td>${u.email}</td>
+                              <td>
+                                 <c:choose>
+                                    <c:when test="${empty u.phone }">  <span class="badge text-danger">Not Yet</span> </c:when>
+                                    <c:otherwise>${u.phone}</c:otherwise>
+                                 </c:choose>
+                              </td>
+                              <td>${u.puchasedOrders}</td>
+                              <td>${u.createdAt}</td>
+                              <td>
+                                 <c:choose>
+                                    <c:when test="${u.status ==1 }"> <span class="badge text-bg-success">Normal</span> </c:when>
+                                    <c:when test="${u.status ==0 }"> <span class="badge text-bg-danger">Banned</span> </c:when>
+                                    <c:when test="${u.status ==2 }">  <span class="badge text-bg-warning">temporarily banned</span> </c:when>
+                                 </c:choose>
+                              </td>
+                              <td>
+                                 <div>
+                                    
+                    <a href="${ctx }/admin/user/delete?id=${u.idUser}" class="btn btn-danger"><i class="fa-solid fa-user-xmark"></i> Xóa tài khoản</a>
+                    <a href="${ctx }/admin/user/ban?id=${u.idUser}" class="btn btn-warning"><i class="fa-solid fa-ban"></i> Khóa tài khoản</a>
+                    <a href="${ctx }/admin/user/unBan?id=${u.idUser}" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Mở khóa</a>
+                    <a href="${ctx }/admin/user/add?id=${u.idUser}" class="btn btn-success"><i class="fa-solid fa-user-plus"></i> Thêm tài khoản</a>
+                    <a href="${ctx }/admin/user/changePassword?id=${u.idUser}" class="btn btn-secondary"><i class="fa-solid fa-key"></i> Đổi mật khẩu</a>
             </div>
-
-        </div>
-
-        <!-- Chức năng Admin với User -->
-        <section id="toolUser">
-            <div class="toolUser_btn">
-                <div class="user-action-buttons">
-                    <button class="btn btn-danger"><i class="fa-solid fa-user-xmark"></i> Xóa tài khoản</button>
-                    <button class="btn btn-warning"><i class="fa-solid fa-ban"></i> Cấm tài khoản</button>
-                    <button class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Chỉnh sửa</button>
-                    <button class="btn btn-success"><i class="fa-solid fa-user-plus"></i> Thêm tài khoản</button>
-                </div>
-        </section>
-
-
-        <script src="javascript.js" defer></script>
-
-</body>
-
+                              </td>
+                           </tr>
+                        </c:forEach>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </div>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" ></script>
+   </body>
 </html>
