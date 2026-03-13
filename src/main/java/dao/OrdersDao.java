@@ -1,9 +1,6 @@
 package dao;
 
-import model.Order;
-import model.OrderDetail;
-import model.ProductVariants;
-import model.Products;
+import model.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -95,6 +92,59 @@ public class OrdersDao extends BaseDao {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
     }
+    public List<Order> selectOrderByUserID(int userID) {
+        List<Order> list = new ArrayList<Order>();
+
+        Order or = null;
+        String sql = "SELECT o.*, a.*, s.city_name FROM orders o " + "JOIN address a ON o.addressID = a.addressID "
+                + "JOIN shipping s ON a.city_code = s.city_code WHERE o.userID = ? ORDER BY o.createdAt DESC";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setInt(1, userID);
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                List<OrderDetail> orderdetail = getProductFromOrderDetails(rs.getInt("orderID"));
+                or = new Order();
+                or.setOrderID(rs.getInt("orderID"));
+                or.setAddressID(rs.getInt("addressID"));
+                or.setTotalAmount(rs.getBigDecimal("totalAmount"));
+                or.setStatus(rs.getString("status").toUpperCase());
+                or.setCreatedAt(rs.getTimestamp("createdAt"));
+                or.setPaymentMethod(rs.getString("paymentMethod"));
+                Address add = new Address();
+                add.setAddressID(rs.getInt("addressID"));
+                add.setCity(rs.getString("city_name"));
+                add.setCountry(rs.getString("country"));
+                add.setFullAddress(rs.getString("fulladdress"));
+                add.setPhone(rs.getString("phone"));
+                add.setWard(rs.getString("ward"));
+
+                or.setAddress(add);
+                or.setOrderDetail(orderdetail);
+
+                list.add(or);
+            }
+
+            return list;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean updateStatusOrderByID(int orderID) {
+        String sql = "UPDATE orders SET status='CANCEL' WHERE orderID = ?";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setInt(1, orderID);
+
+            int re = ps.executeUpdate();
+            return re > 0;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
