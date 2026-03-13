@@ -49,3 +49,27 @@ function loadVariantData(linkurl,button) {
 					}
 	    });
 }
+
+// AJAX Cập nhật trạng thái đơn hàng
+
+function getPriceShipping(linkurl) {
+
+	const getValueStatus = $("#stausOrders").val();
+	const getOrrderID = $("#orderId").val();
+	 $.ajax({
+		url: linkurl+"/admin/order/updateStatus",
+		type: "POST",
+		data: {
+			orderID:getOrrderID,
+			status:getValueStatus
+		},
+		success: function() {
+			location.reload();
+	
+		},
+		error: function() {
+			console.log("Cập Nhật Shipping Fee");
+		}
+	});
+}
+
