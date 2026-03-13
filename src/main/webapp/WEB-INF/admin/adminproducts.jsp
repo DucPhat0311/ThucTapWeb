@@ -289,5 +289,26 @@
             </section>
          </div>
       </div>
+      
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" ></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="${ctx}/assert/javascript/adminAjax.js"></script>
+            
+      <script>
+         document.querySelectorAll(".order-row").forEach(row => {
+             row.addEventListener("click", function () {
+                 window.location.href = this.dataset.href;
+             });
+         });
+         function previewImage(event) {
+        	    const file = event.target.files[0];
+        	    if (!file) return;
+
+        	    const img = document.getElementById("preview");
+        	    img.src = URL.createObjectURL(file);
+        	    img.style.display = "block";
+        	}
+         	
+      </script>
    </body>
 </html>
