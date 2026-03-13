@@ -36,7 +36,7 @@
         <!-- Header -->
         <div class="header">
             <div class="header-left">
-                <h1>Products</h1>
+                <h1>Quản lý sản phẩm</h1>
             </div>
             <div class="header-right">
 
@@ -53,7 +53,7 @@
             <!-- Recent Orders -->
             <div class="card">
                 <div class="card-header">
-                    <h3>List products</h3>
+                    <h3>Danh sách sản phẩm</h3>
                     <div class="search-box">
                         <input type="text" placeholder="Tìm kiếm...">
                     </div>
@@ -65,114 +65,250 @@
                                 <th>Mã sản phẩm</th>
                                 <th>Tên sản phẩm </th>
                                 <th>Loại</th>
-                                <th>Số lượng</th>
+                                <th>Giá</th>
                                 <th>Còn lại</th>
                                 <th>Trạng thái</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>#SP-001</td>
-                                <td>Áo thun nam basic</td>
-                                <td>Nam</td>
-                                <td>50</td>
-                                <td>20</td>
-                                <td>Đang bán</td>
-                            </tr>
-                            <tr>
-                                <td>#SP-002</td>
-                                <td>Đầm maxi hoa</td>
-                                <td>Nữ</td>
-                                <td>30</td>
-                                <td>5</td>
-                                <td>Đang bán</td>
-                            </tr>
-                            <tr>
-                                <td>#SP-003</td>
-                                <td>Quần jeans nữ</td>
-                                <td>Nữ</td>
-                                <td>40</td>
-                                <td>0</td>
-                                <td>Hết hàng</td>
-                            </tr>
-                            <tr>
-                                <td>#SP-004</td>
-                                <td>Áo sơ mi trắng</td>
-                                <td>Unisex</td>
-                                <td>60</td>
-                                <td>10</td>
-                                <td>Tạm thời ngừng bán</td>
-                            </tr>
-                            <tr>
-                                <td>#SP-005</td>
-                                <td>Áo khoác nữ dáng dài</td>
-                                <td>Nữ</td>
-                                <td>25</td>
-                                <td>8</td>
-                                <td>Đang bán</td>
-                            </tr>
-                            <tr>
-                                <td>#SP-006</td>
-                                <td>Quần short nam</td>
-                                <td>Nam</td>
-                                <td>40</td>
-                                <td>15</td>
-                                <td>Đang bán</td>
-                            </tr>
-                            <tr>
-                                <td>#SP-007</td>
-                                <td>Đầm công sở</td>
-                                <td>Nữ</td>
-                                <td>30</td>
-                                <td>0</td>
-                                <td>Hết hàng</td>
-                            </tr>
-                            <tr>
-                                <td>#SP-008</td>
-                                <td>Áo len unisex</td>
-                                <td>Unisex</td>
-                                <td>20</td>
-                                <td>5</td>
-                                <td>Tạm thời ngừng bán</td>
-                            </tr>
-                            <tr>
-                                <td>#SP-009</td>
-                                <td>Áo sơ mi caro nam</td>
-                                <td>Nam</td>
-                                <td>35</td>
-                                <td>12</td>
-                                <td>Đang bán</td>
-                            </tr>
-                            <tr>
-                                <td>#SP-010</td>
-                                <td>Quần tây nữ</td>
-                                <td>Nữ</td>
-                                <td>28</td>
-                                <td>0</td>
-                                <td>Ngừng bán</td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
+                        <c:forEach var ="p" items="${productsList}">
+                           <tr class="order-row" data-href="${ctx}/admin/variant/list?id=${p.productID}" style="cursor: pointer;">
+                              <td class="fw-bold">#${p.productID }</td>
+                              <td>
+                                 <div class="d-flex flex-column">
+                                    <span >${p.productName }</span>
+                                 </div>
+                              </td>
+                              <td >${p.cate.categoryName }</td>
+                              <td>
+                                 <span class="badge border text-dark fw-normal">
+                                    <fmt:formatNumber value="${p.price }" pattern="#,##0 VNĐ"/>
+                                 </span>
+                              </td>
+                              <td>${p.quantityVariantCurr }</td>
+                              <td>
+                                 <c:choose >
+                                    <c:when test="${p.status == 'ACTIVE'}"> <span class="badge text-bg-success">${p.status }</span></c:when>
+                                    <c:when test="${p.status == 'LOCK'}"> <span class="badge text-bg-warning">${p.status }</span></c:when>
+                                 </c:choose>
+                              </td>
+                              <td>
+                                 <div>
+                                    <a href="${ctx }/admin/product/lock?id=${p.productID}" class="btn btn-warning">Lock</a>
+                                    <a href="${ctx }/admin/product/unLock?id=${p.productID}" class="btn btn-success">Unlock</a>
+                                  <button data-productid="${p.productID}" data-bs-toggle="modal" onclick="event.stopPropagation();loadProducts('${ctx}',this);" data-bs-target="#productModalModify" class="btn btn-danger">  Modify</button>
+                                    
+                                 </div>
+                              </td>
+                           </tr>
+                        </c:forEach>
+                     </tbody>
+                  </table>
+               </div>
             </div>
-
-
-            <!-- Chức năng Admin với User -->
-            <section id="toolUser">
-                <div class="toolUser_btn">
-                    <!-- Header -->
-                    <div class="header">
-                        <button>Thêm</button>
-                        <button>Xóa</button>
-                        <button>Sửa</button>
-                        <button>Ẩn</button>
-                    </div>
+            <!-- Modal Modify -->
+                  <div class="modal fade" id="productModalModify" tabindex="-1"
+                     aria-labelledby="productModalLabel" aria-hidden="true">
+                     <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                           <!-- HEADER -->
+                           <div class="modal-header">
+                              <h5 class="modal-title" id="productModalLabel">
+                                Chỉnh sửa sản phẩm
+                              </h5>
+                              <button type="button" class="btn-close"
+                                 data-bs-dismiss="modal"></button>
+                           </div>
+                           <!-- FORM -->
+                           <form action="${ctx}/admin/product/modify" method="post" enctype="multipart/form-data">
+                              <div class="modal-body">
+                                 <div class="row g-3">
+                                    <!-- Product Name -->
+                                    <div class="col-md-6">
+                                       <label class="form-label">Tên sản phẩm</label>
+                                       <input type="text" id="modal_productName" name="productName"
+                                          class="form-control" required>
+                                    </div>
+                                  <input type="hidden" id="productsID" name="pid" value="">
+                                    <!-- Category -->
+                                    <div class="col-md-6">
+                                       <label class="form-label">Danh mục</label>
+                                       <select id="modal_categoryProducts" name="categoryID" class="form-select" required>
+                                          <option value="">-- Chọn danh mục --</option>
+                                          <c:forEach items="${categoryList}" var="c">
+                                             <option value="${c.categoryID}">
+                                                ${c.categoryName}
+                                             </option>
+                                          </c:forEach>
+                                       </select>
+                                    </div>
+                                    <!-- Base Price -->
+                                    <div class="col-md-6">
+                                       <label class="form-label">Giá (VNĐ)</label>
+                                       <input id="modal_basePrice" type="number" name="price"
+                                          class="form-control"
+                                          min="0" step="1000" required>
+                                    </div>
+                                    <!-- Product Status -->
+                                    <div class="col-md-6">
+                                       <label class="form-label">Trạng thái</label>
+                                       <select id="modal_status" name="status" class="form-select">
+                                          <option value="ACTIVE">Hoạt động</option>
+                                          <option value="INACTIVE">Không hoạt động</option>
+                                       </select>
+                                    </div>
+                                    <!-- Description -->
+                                    <div class="col-md-12">
+                                       <label class="form-label">Mô tả</label>
+                                       <textarea id="modal_textarea" name="description"
+                                          class="form-control"
+                                          rows="3"></textarea>
+                                    </div>
+                                    <!-- Preview -->
+                                    <div class="d-flex justify-content-center">
+                                    <img  class="border"  id="preview" src="" alt="Preview" width="80" height="80" style="max-width:200px; display:none;">
+                                    
+                                    </div>
+                                    <!-- Image -->
+                                    <div class="col-md-12">
+                                       <label class="form-label">Hình ảnh sản phẩm</label>
+                                       <input  type="file" name="image"
+                                          class="form-control" accept="image/*" onchange="previewImage(event)">
+                                    </div>
+                                 </div>
+                              </div>
+                              <!-- FOOTER -->
+                              <div class="modal-footer">
+                                 <button type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal">
+                                 Đóng
+                                 </button>
+                                 <button type="submit" class="btn btn-primary">
+                                 Lưu
+                                 </button>
+                              </div>
+                           </form>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- End Modal -->
+            
+            
+            <section>
+               <h6>Công cụ</h6>
+               <div>
+                  <button class="btn btn-primary mt-2"  data-bs-toggle="modal" data-bs-target="#productModal"><i class="bi bi-plus"></i> Thêm sản phẩm</button>
+                  <!-- Modal -->
+                  <div class="modal fade" id="productModal" tabindex="-1"
+                     aria-labelledby="productModalLabel" aria-hidden="true">
+                     <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                           <!-- HEADER -->
+                           <div class="modal-header">
+                              <h5 class="modal-title" id="productModalLabel">
+                                 Thêm sản phẩm mới
+                              </h5>
+                              <button type="button" class="btn-close"
+                                 data-bs-dismiss="modal"></button>
+                           </div>
+                           <!-- FORM -->
+                           <form action="${ctx}/admin/product/add" method="post" enctype="multipart/form-data">
+                              <div class="modal-body">
+                                 <div class="row g-3">
+                                    <!-- Product Name -->
+                                    <div class="col-md-6">
+                                       <label class="form-label">Tên sản phẩm</label>
+                                       <input type="text" name="productName"
+                                          class="form-control" required>
+                                    </div>
+                                    <!-- Category -->
+                                    <div class="col-md-6">
+                                       <label class="form-label">Danh mục</label>
+                                       <select name="categoryID" class="form-select" required>
+                                          <option value="">-- Chọn danh mục --</option>
+                                          <c:forEach items="${categoryList}" var="c">
+                                             <option value="${c.categoryID}">
+                                                ${c.categoryName}
+                                             </option>
+                                          </c:forEach>
+                                       </select>
+                                    </div>
+                                    <!-- Base Price -->
+                                    <div class="col-md-6">
+                                       <label class="form-label">Giá (VNĐ)</label>
+                                       <input type="number" name="price"
+                                          class="form-control"
+                                          min="0" step="1000" required>
+                                    </div>
+                                    <!-- Product Status -->
+                                    <div class="col-md-6">
+                                       <label class="form-label">Trạng thái</label>
+                                       <select name="status" class="form-select">
+                                          <option value="ACTIVE">Hoạt động</option>
+                                          <option value="INACTIVE">Không hoạt động</option>
+                                       </select>
+                                    </div>
+                                    <!-- Description -->
+                                    <div class="col-md-12">
+                                       <label class="form-label">Mô tả sản phẩm</label>
+                                       <textarea name="description"
+                                          class="form-control"
+                                          rows="3"></textarea>
+                                    </div>
+                                    <!-- Preview -->
+                                    <div class="d-flex justify-content-center">
+                                    <img class="border"  id="preview" src="" alt="Preview" width="80" height="80" style="max-width:200px; display:none;">
+                                    
+                                    </div>
+                                    <!-- Image -->
+                                    <div class="col-md-12">
+                                       <label class="form-label">Hình ảnh sản phẩm</label>
+                                       <input type="file" name="image"
+                                          class="form-control" accept="image/*" onchange="previewImage(event)">
+                                    </div>
+                                 </div>
+                              </div>
+                              <!-- FOOTER -->
+                              <div class="modal-footer">
+                                 <button type="button"
+                                    class="btn btn-secondary"
+                                    data-bs-dismiss="modal">
+                                 Đóng
+                                 </button>
+                                 <button type="submit" class="btn btn-primary">
+                                 Lưu
+                                 </button>
+                              </div>
+                           </form>
+                        </div>
+                     </div>
+                  </div>
+                  <!-- End Modal -->
+               </div>
             </section>
+         </div>
+      </div>
+      
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" ></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="${ctx}/assert/javascript/adminAjax.js"></script>
+            
+      <script>
+         document.querySelectorAll(".order-row").forEach(row => {
+             row.addEventListener("click", function () {
+                 window.location.href = this.dataset.href;
+             });
+         });
+         function previewImage(event) {
+        	    const file = event.target.files[0];
+        	    if (!file) return;
 
-        </div>
-        <script src="javascript.js" defer></script>
-
-</body>
-
+        	    const img = document.getElementById("preview");
+        	    img.src = URL.createObjectURL(file);
+        	    img.style.display = "block";
+        	}
+         	
+      </script>
+   </body>
 </html>
