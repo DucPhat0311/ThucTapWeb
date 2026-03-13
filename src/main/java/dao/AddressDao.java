@@ -62,4 +62,86 @@ public class AddressDao extends BaseDao {
         }
         return -1;
     }
+
+    public int isFirstAddress(int userID) {
+        String sql = "SELECT COUNT(*) FROM address WHERE userID = ?";
+        try (Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setInt(1, userID);
+            ResultSet rs = ps.executeQuery();
+
+            rs.next();
+            return rs.getInt(1);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public boolean deleteAddressByID( int id ) {
+        String sql = "delete FROM address where addressID=?";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setInt(1, id);
+
+            int result = ps.executeUpdate();
+            return result >0;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+
+        }
+    }
+    public boolean updateAllIsDefaultAddress(int userID) {
+        String sql = "UPDATE  address SET isDefault = 0 where userID=?";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setInt(1, userID);
+
+            int result = ps.executeUpdate();
+            return result >0;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public boolean updateCurrentAddressByID(int id, int userID) {
+        // reset lại các point
+        updateAllIsDefaultAddress(userID);
+        String sql = "UPDATE  address SET isDefault = 1 where addressID=?  AND userID=? ";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setInt(1, id);
+            ps.setInt(2, userID);
+
+            int result = ps.executeUpdate();
+            return result >0;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public Address selectAddressByAddressID(int addressId)  {
+        Address add = new Address();
+        String sql = "select a.addressID,a.fulladdress,s.city_name as city, a.ward,a.phone,a.userID,a.isDefault, a.country from address a "
+                + "JOIN shipping s ON s.city_code = a.city_code where addressID =? ";
+        try( Connection conn = getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);){
+
+            ps.setInt(1, addressId);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()) {
+
+                add.setAddressID(rs.getInt("addressID"));
+                add.setFullAddress(rs.getString("fulladdress"));
+                add.setWard(rs.getString("ward"));
+                add.setCity(rs.getString("city"));
+                add.setCountry(rs.getString("country"));
+                add.setPhone(rs.getString("phone"));
+                add.setIsDefault(rs.getBoolean("isDefault"));
+            }
+            return add;
+        }catch(Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
+
+
