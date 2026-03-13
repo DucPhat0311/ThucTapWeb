@@ -52,4 +52,22 @@ public class CookieUtil {
         response.addCookie(tokenCookie);
         response.addCookie(rememberCookie);
     }
+    // Lấy thông tin đăng nhập từ cookie
+    public static Map<String, String> getLoginCookie(HttpServletRequest request) {
+        Map<String, String> loginInfo = new HashMap<>();
+        Cookie[] cookies = request.getCookies();
+
+        if (cookies != null) {
+            for (Cookie c : cookies) {
+                if (USER_ID.equals(c.getName())) {
+                    loginInfo.put("user_id", c.getValue());
+                }
+                if (TOKEN.equals(c.getName())) {
+                    loginInfo.put("token", c.getValue());
+                }
+            }
+        }
+
+        return loginInfo;
+    }
 }
