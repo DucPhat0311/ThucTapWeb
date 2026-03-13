@@ -4,6 +4,10 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
+
+<script>
+    window.ctx = "${ctx}";
+</script>
 <fmt:setLocale value="${sessionScope.lang}" />
 <fmt:setBundle basename="messages" scope="session"/>
 
@@ -18,8 +22,7 @@
             <li><a href="${ctx}/about" class="${active=='about'?'active':'' }" ><fmt:message key="nav.about" /></a></li>
             <li><a href="${ctx}/contact" class="${active=='contact'?'active':'' }" ><fmt:message key="nav.contact" /></a></li>
             <li id="lg-bag"><a href="${ctx}/cart"  class="${active=='cart'?'active':'' }"><i class="bi bi-cart"></i></a>
-                <%--                <span id="cart_count"    >TODO</span>--%>
-
+                <span id="cart_count"    >${sessionScope.Cart != null ? sessionScope.Cart.size : 0}</span>
             </li>
 
             <%--            Khi login thành công thì có đống gì đó như avt, tên, blabla còn ko login thành công thì hiện nút sign up--%>
@@ -52,12 +55,15 @@
                 </c:otherwise>
             </c:choose>
 
-
-            <%--TODO--%>
-        </ul>
+            <li> <a href="${ctx }/changelanguage?lang=vi" class="${sessionScope.lang == 'vi' ? 'active' : ''}">VI</a> |
+                <a href="${ctx }/changelanguage?lang=en" class="${sessionScope.lang == 'en' || sessionScope.lang == null  ? 'active' : ''}">EN</a></li>
+            <a href="#" id="close"> <i class="bi bi-x-lg"></i></a>        </ul>
 
     </div>
 
-    <%--TODO--%>
-
+    <div id="mobile">
+        <a href="${ctx}/cart" class="${active=='cart'?'active':'' }" data-page="cart" ><i class="bi bi-cart"></i></a>
+        <i id="bar" class="fas fa-outdent"></i>
+        <span id="cart_count_mobile"    >${sessionScope.Cart != null ? sessionScope.Cart.size : 0}</span>
+    </div>
 </section>

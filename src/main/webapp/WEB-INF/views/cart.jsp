@@ -82,8 +82,7 @@
 </section>
 
 <%@ include file="../includes/footer.jsp" %>
-<script>     window.ctx = "${pageContext.request.contextPath}";
-</script>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="${ctx}/assert/javascript/script.js"></script>
