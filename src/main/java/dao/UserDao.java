@@ -1,86 +1,214 @@
 package dao;
 
-import model.User;
-
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
 
+
+import model.User;
+
 public class UserDao extends BaseDao {
 
-    public boolean addUser(User user) {
-        String sql = "INSERT INTO USERS(firstname,lastname,email,verify,username,password) VALUES (?,?,?,?,?,?)";
+	public boolean addUser(User user) {
+		String sql = "INSERT INTO USERS(firstname,lastname,email,verify,username,password) VALUES (?,?,?,?,?,?)";
 
-        int result = 0;
-        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+		int result = 0;
+		try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
 
-            ps.setString(1, user.getFirstName());
-            ps.setString(2, user.getLastName());
-            ps.setString(3, user.getEmail());
-            ps.setInt(4, user.getVerify() ? 1 : 0); // Thử đổi từ setBoolean sang setInt
-            ps.setString(5, user.getUsername());
-            ps.setString(6, user.getPassword());
+			ps.setString(1, user.getFirstName());
+			ps.setString(2, user.getLastName());
+			ps.setString(3, user.getEmail());
+			ps.setInt(4, user.getVerify() ? 1 : 0); // Thử đổi từ setBoolean sang setInt
+			ps.setString(5, user.getUsername());
+			ps.setString(6, user.getPassword());
 
-            result = ps.executeUpdate();
+			result = ps.executeUpdate();
 
-            System.out.println("số dòng ảnh hưởng:" + sql);
-            System.out.println("số dòng ảnh hưởng:" + result);
+			System.out.println("số dòng ảnh hưởng:" + sql);
+			System.out.println("số dòng ảnh hưởng:" + result);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result > 0;
-    }
-    public User selectUserByUserID(int userID) {
-        String sql = "SELECT * FROM USERS WHERE userID=?";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result > 0;
+	}
 
-        try (Connection conn = getConnection(); PreparedStatement pst = conn.prepareStatement(sql);) {
+	public boolean SelectUsernameIsContains(String username) {
+		String sql = "SELECT * FROM USERS WHERE username=?";
 
-            pst.setInt(1, userID);
-            ResultSet result = pst.executeQuery();
-            User user = new User();
+		try (Connection conn = getConnection(); PreparedStatement pst = conn.prepareStatement(sql);) {
 
-            while (result.next()) {
-                user.setIdUser(result.getInt("userID"));
-                user.setFirstName(result.getString("firstName"));
-                user.setLastName(result.getString("lastName"));
-                user.setEmail(result.getString("email"));
+			pst.setString(1, username);
+			ResultSet result = pst.executeQuery();
+			return result.next();
 
-                user.setVerify((result.getInt("verify") == 1) ? true : false);
-                user.setUsername(result.getString("username"));
-                user.setPassword(result.getString("password"));
-                Date getBirthdate = result.getDate("birthday");
-                LocalDate birthDate = (getBirthdate == null ? null : getBirthdate.toLocalDate());
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new RuntimeException(e);
 
-                user.setBirthday(birthDate);
-                user.setGender(result.getInt("gender"));
-            }
-            return user;
-        } catch (Exception e) {
-            // TODO: handle exception
-            e.printStackTrace();
+		}
 
-        }
-        return null;
-    }
-    public boolean updateBirthdayOrGender(int userID, LocalDate birthday, int gender, String firstname,
-                                          String lastname) {
-        String sql = "UPDATE users SET birthday=?, gender=?,firstName=?,lastName=? WHERE userID=?";
-        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+	}
 
-            ps.setDate(1, Date.valueOf(birthday));
-            ps.setInt(2, gender);
-            ps.setString(3, firstname);
-            ps.setString(4, lastname);
-            ps.setInt(5, userID);
+	public boolean checkAccount(String username) {
+		String sql = "SELECT * FROM USERS WHERE username=?";
 
-            int result = ps.executeUpdate();
-            return result > 0;
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+		try (Connection conn = getConnection(); PreparedStatement pst = conn.prepareStatement(sql);) {
 
-        }
-    }
+			pst.setString(1, username);
+			ResultSet result = pst.executeQuery();
+			return result.next();
+		} catch (Exception e) {
+			// TODO: handle exception
+			throw new RuntimeException(e);
+
+		}
+
+	}
+	public User selectUserByUserID(int userID) {
+		String sql = "SELECT * FROM USERS WHERE userID=?";
+
+		try (Connection conn = getConnection(); PreparedStatement pst = conn.prepareStatement(sql);) {
+
+			pst.setInt(1, userID);
+			ResultSet result = pst.executeQuery();
+			User user = new User();
+			
+			while (result.next()) {
+				user.setIdUser(result.getInt("userID"));
+				user.setFirstName(result.getString("firstName"));
+				user.setLastName(result.getString("lastName"));
+				user.setEmail(result.getString("email"));
+
+				user.setVerify((result.getInt("verify") == 1) ? true : false);
+				user.setUsername(result.getString("username"));
+				user.setPassword(result.getString("password"));
+				Date getBirthdate = result.getDate("birthday");
+				LocalDate birthDate = (getBirthdate == null ? null : getBirthdate.toLocalDate());
+
+				user.setBirthday(birthDate);
+				user.setGender(result.getInt("gender"));
+			}
+			return user;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+
+		}
+		return null;
+	}
+	public User getFullName(String username) {
+		String sql = "SELECT * FROM USERS WHERE username=?";
+
+		try (Connection conn = getConnection(); PreparedStatement pst = conn.prepareStatement(sql);) {
+
+			pst.setString(1, username);
+			ResultSet result = pst.executeQuery();
+			User user = new User();
+			while (result.next()) {
+				user.setIdUser(result.getInt("userID"));
+				user.setFirstName(result.getString("firstName"));
+				user.setLastName(result.getString("lastName"));
+				user.setEmail(result.getString("email"));
+				// user.setAddress(result.getInt("address"));
+
+				user.setVerify((result.getInt("verify") == 1) ? true : false);
+				user.setUsername(result.getString("username"));
+				user.setPassword(result.getString("password"));
+				Date getBirthdate = result.getDate("birthday");
+				LocalDate birthDate = (getBirthdate == null ? null : getBirthdate.toLocalDate());
+				user.setRole(result.getInt("role"));
+				user.setBirthday(birthDate);
+				user.setGender(result.getInt("gender"));
+				user.setStatus(result.getInt("status"));
+			}
+			return user;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+
+		}
+		return null;
+	}
+
+	//Kiểm tra email có tồn tại không
+	public boolean checkEmail(String email) {
+		String sql = "SELECT * FROM users WHERE email=?";
+		try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+			ps.setString(1, email);
+			ResultSet rs = ps.executeQuery();
+			return rs.next();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+
+		}
+
+	}
+
+	//Hàm đổi mật khẩu
+	public boolean updatePasswordByEmail(String email, String passwordHash) {
+		String sql = "UPDATE users SET password=? WHERE email=?";
+		try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+			ps.setString(1, passwordHash);
+			ps.setString(2, email);
+			int result = ps.executeUpdate();
+			return result > 0;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+
+		}
+	}
+
+	public boolean updatePasswordByUserID(int id, String passwordHash) {
+		String sql = "UPDATE users SET password=? WHERE userID=?";
+		try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+			ps.setString(1, passwordHash);
+			ps.setInt(2, id);
+			int result = ps.executeUpdate();
+			return result > 0;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+
+		}
+
+
+	}
+
+	public boolean updateBirthdayOrGender(int userID, LocalDate birthday, int gender, String firstname,
+			String lastname) {
+		String sql = "UPDATE users SET birthday=?, gender=?,firstName=?,lastName=? WHERE userID=?";
+		try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+			ps.setDate(1, Date.valueOf(birthday));
+			ps.setInt(2, gender);
+			ps.setString(3, firstname);
+			ps.setString(4, lastname);
+			ps.setInt(5, userID);
+
+			int result = ps.executeUpdate();
+			return result > 0;
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+
+		}
+
+	}
+	public boolean isEmailExists(String email) {
+		String sql = "SELECT * FROM users where email =?";
+		try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+		ps.setString(1, email);
+			ResultSet rs = ps.executeQuery();
+			return rs.next();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+
+		}
+	}
+
 }
