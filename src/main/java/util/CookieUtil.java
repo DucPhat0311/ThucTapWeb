@@ -34,4 +34,22 @@ public class CookieUtil {
             clearLoginInfo(response);
         }
     }
+    // Xóa cookie khi đăng xuất
+    public static void clearLoginInfo(HttpServletResponse response) {
+        Cookie userCookie = new Cookie(USER_ID, "");
+        Cookie tokenCookie = new Cookie(TOKEN, "");
+        Cookie rememberCookie = new Cookie(REMEMBER_COOKIE, "");
+
+        userCookie.setMaxAge(0);
+        tokenCookie.setMaxAge(0);
+        rememberCookie.setMaxAge(0);
+
+        userCookie.setPath("/");
+        tokenCookie.setPath("/");
+        rememberCookie.setPath("/");
+
+        response.addCookie(userCookie);
+        response.addCookie(tokenCookie);
+        response.addCookie(rememberCookie);
+    }
 }
