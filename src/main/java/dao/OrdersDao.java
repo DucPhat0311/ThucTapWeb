@@ -267,5 +267,166 @@ public class OrdersDao extends BaseDao {
             throw new RuntimeException(e);
         }
     }
+    public List<Order> selectOrdersByDelivered(int userID) {
+        List<Order> list = new ArrayList<Order>();
+
+        Order or = null;
+        String sql = "SELECT o.*, a.*, s.city_name FROM orders o  JOIN address a ON o.addressID = a.addressID  "
+                + "JOIN shipping s ON a.city_code = s.city_code WHERE o.userID = ? AND status='SUCCESS'";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setInt(1, userID);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                List<OrderDetail> orderdetail = getProductFromOrderDetails(rs.getInt("orderID"));
+                or = new Order();
+                or.setOrderID(rs.getInt("orderID"));
+                or.setAddressID(rs.getInt("addressID"));
+                or.setTotalAmount(rs.getBigDecimal("totalAmount"));
+                or.setStatus(rs.getString("status").toUpperCase());
+                or.setCreatedAt(rs.getTimestamp("createdAt"));
+                or.setPaymentMethod(rs.getString("paymentMethod"));
+                Address add = new Address();
+                add.setAddressID(rs.getInt("addressID"));
+                add.setCity(rs.getString("city_name"));
+                add.setCountry(rs.getString("country"));
+                add.setFullAddress(rs.getString("fulladdress"));
+                add.setPhone(rs.getString("phone"));
+                add.setWard(rs.getString("ward"));
+
+                or.setAddress(add);
+                or.setOrderDetail(orderdetail);
+
+                list.add(or);
+            }
+
+            return list;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Order> selectOrdersByTodayDelivered(int userID) {
+        List<Order> list = new ArrayList<Order>();
+
+        Order or = null;
+        String sql = "SELECT o.*, a.*, s.city_name FROM orders o  JOIN address a ON o.addressID = a.addressID  "
+                + "JOIN shipping s ON a.city_code = s.city_code WHERE o.userID = ? AND createdAt >= CURDATE()"
+                + "				  AND createdAt < CURDATE() + INTERVAL 1 DAY AND STATUS='SUCCESS'";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setInt(1, userID);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                List<OrderDetail> orderdetail = getProductFromOrderDetails(rs.getInt("orderID"));
+                or = new Order();
+                or.setOrderID(rs.getInt("orderID"));
+                or.setAddressID(rs.getInt("addressID"));
+                or.setTotalAmount(rs.getBigDecimal("totalAmount"));
+                or.setStatus(rs.getString("status").toUpperCase());
+                or.setCreatedAt(rs.getTimestamp("createdAt"));
+                or.setPaymentMethod(rs.getString("paymentMethod"));
+                Address add = new Address();
+                add.setAddressID(rs.getInt("addressID"));
+                add.setCity(rs.getString("city_name"));
+                add.setCountry(rs.getString("country"));
+                add.setFullAddress(rs.getString("fulladdress"));
+                add.setPhone(rs.getString("phone"));
+                add.setWard(rs.getString("ward"));
+
+                or.setAddress(add);
+                or.setOrderDetail(orderdetail);
+
+                list.add(or);
+            }
+
+            return list;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Order> selectOrdersByWeekDelivered(int userID) {
+        List<Order> list = new ArrayList<Order>();
+
+        Order or = null;
+        String sql = "SELECT o.*, a.*, s.city_name FROM orders o  JOIN address a ON o.addressID = a.addressID  "
+                + "JOIN shipping s ON a.city_code = s.city_code WHERE o.userID = ? AND createdAt >= DATE_SUB(NOW(), INTERVAL 7 DAY) AND STATUS='SUCCESS'";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setInt(1, userID);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                List<OrderDetail> orderdetail = getProductFromOrderDetails(rs.getInt("orderID"));
+                or = new Order();
+                or.setOrderID(rs.getInt("orderID"));
+                or.setAddressID(rs.getInt("addressID"));
+                or.setTotalAmount(rs.getBigDecimal("totalAmount"));
+                or.setStatus(rs.getString("status").toUpperCase());
+                or.setCreatedAt(rs.getTimestamp("createdAt"));
+                or.setPaymentMethod(rs.getString("paymentMethod"));
+                Address add = new Address();
+                add.setAddressID(rs.getInt("addressID"));
+                add.setCity(rs.getString("city_name"));
+                add.setCountry(rs.getString("country"));
+                add.setFullAddress(rs.getString("fulladdress"));
+                add.setPhone(rs.getString("phone"));
+                add.setWard(rs.getString("ward"));
+
+                or.setAddress(add);
+                or.setOrderDetail(orderdetail);
+
+                list.add(or);
+            }
+
+            return list;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Order> selectOrdersByMonthDelivered(int userID) {
+        List<Order> list = new ArrayList<Order>();
+
+        Order or = null;
+        String sql = "SELECT o.*, a.*, s.city_name FROM orders o  JOIN address a ON o.addressID = a.addressID  "
+                + "JOIN shipping s ON a.city_code = s.city_code WHERE o.userID = ? AND MONTH(createdAt) = MONTH(CURDATE())"
+                + "  AND YEAR(createdAt) = YEAR(CURDATE()) AND STATUS='SUCCESS';";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setInt(1, userID);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                List<OrderDetail> orderdetail = getProductFromOrderDetails(rs.getInt("orderID"));
+                or = new Order();
+                or.setOrderID(rs.getInt("orderID"));
+                or.setAddressID(rs.getInt("addressID"));
+                or.setTotalAmount(rs.getBigDecimal("totalAmount"));
+                or.setStatus(rs.getString("status").toUpperCase());
+                or.setCreatedAt(rs.getTimestamp("createdAt"));
+                or.setPaymentMethod(rs.getString("paymentMethod"));
+                Address add = new Address();
+                add.setAddressID(rs.getInt("addressID"));
+                add.setCity(rs.getString("city_name"));
+                add.setCountry(rs.getString("country"));
+                add.setFullAddress(rs.getString("fulladdress"));
+                add.setPhone(rs.getString("phone"));
+                add.setWard(rs.getString("ward"));
+
+                or.setAddress(add);
+                or.setOrderDetail(orderdetail);
+
+                list.add(or);
+            }
+
+            return list;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
