@@ -148,5 +148,53 @@ public class AdminVariantController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/admin/variant?id=" + productID);
         }
     }
-}
 
+//Lấy thông tin biến thể để sửa (AJAX)
+
+    private void getVariantModify(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
+        int variantID = Integer.parseInt(request.getParameter("variantID"));
+        int productID = Integer.parseInt(request.getParameter("productID"));
+
+        AdminVariantDao dao = new AdminVariantDao();
+        ProductVariants pv = dao.selectToModify(variantID, productID);
+
+        response.setContentType("application/json");
+        response.getWriter().write(
+                "{"
+                        + "\"size\":\"" + pv.getSize() + "\","
+                        + "\"stock\":" + pv.getStock() + ","
+                        + "\"price\":" + pv.getPriceAdjustment() + ","
+                        + "\"status\":\"" + pv.getStatus() + "\""
+                        + "}"
+        );
+    }
+
+//Sửa thông tin biến thể sản phẩm
+
+    private void modifyVariant(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+        request.setCharacterEncoding("UTF-8");
+        AdminVariantDao dao = new AdminVariantDao();
+
+        int variantID = Integer.parseInt(request.getParameter("variantID"));
+        int productID = Integer.parseInt(request.getParameter("productID"));
+        String size = request.getParameter("size");
+        int stock = Integer.parseInt(request.getParameter("stock"));
+        BigDecimal priceAdjustment = new BigDecimal(request.getParameter("priceAdjustment"));
+        String status = request.getParameter("status");
+
+        ProductVariants pv = new ProductVariants();
+        pv.setSize(size);
+        pv.setPriceAdjustment(priceAdjustment);
+        pv.setStock(stock);
+        pv.setStatus(status);
+
+        if (dao.updateVariant(pv, productID, variantID)) {
+            response.sendRedirect(request.getContextPath() + "/admin/variant?id=" + productID);
+        }
+    }
+}
