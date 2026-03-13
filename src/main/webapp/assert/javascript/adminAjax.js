@@ -24,3 +24,28 @@ function loadProducts(linkurl,button) {
 	    });
 }
 
+// AJAX Load thông tin biến thể để sửa
+
+function loadVariantData(linkurl,button) {
+	const variantID = $(button).data("variantid");
+	const productID = $(button).data("productid");
+	console.log(variantID)
+	console.log(productID)
+	    $.ajax({
+	        url: linkurl +"/admin/variant/getModify",
+	        type: "POST",
+	        data: { variantID: variantID,productID: productID },
+	        success: function (data) {
+				
+	            $("#modal_variantID").val(variantID);
+				$("#modal_productID").val(productID)
+				$("#modal_Size").val(data.size);
+	            $("#modal_stock").val(data.stock);
+	            $("#modal_price").val(data.price);
+				$("#modal_status").val(data.status);
+	        }			,
+					error: function() {
+						console.log("Lỗi Load Modify");
+					}
+	    });
+}
