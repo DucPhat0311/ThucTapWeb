@@ -26,120 +26,54 @@
 </head>
 
 <body>
-    <section id=header>
-        <a href="#"> <img src="img/logo.png" class="logo" alt=""></a>
-
-        <div>
-            <ul id="navbar">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="shop.html" class="active">Shop</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li id="lg-bag"><a href="cart.html"><i class="bi bi-bag"></i></a></li>
-                <li id="lg-bag"><a href="signup.html" class="signup">Sign Up</a></li>
-                <a href="#" id="close"> <i class="bi bi-x-lg"></i></a>
-            </ul>
-
-        </div>
-        <div id="mobile">
-            <a href="cart.html"><i class="bi bi-bag"></i></a>
-            <i id="bar" class="fas fa-outdent"></i>
-
-        </div>
-    </section>
-
+    <jsp:include page="../includes/header.jsp"></jsp:include>
+    <c:set var="ctx" value="${pageContext.request.contextPath}" />
     <section id="signup">
-        <form action="">
-            <div class="signup_Header">
-                <h1> Cara Clothes</h1>
-                <h2>Forgot password</h2>
-            </div>
-            <div class="signup_Main">
-                <input type="text" placeholder="Email" required
+      <form id="forgotform" action="${ctx }/login/forgotpassword" method="POST" autocomplete="off">
+        <div class="signup_Header">
+          <h1>Cara Clothes</h1>
+          <h2>${forgotTitle}</h2>
+        </div>
+        <div class="signup_Main">
+          <input 
+            type="text"
+            placeholder="${phEmail}"
+            required
             id="email_forgot"
             name="email"
-            class="form-control forgot-email"
+            class="form-control"
             autocomplete="off"
-            value="">
-
-              <div class="verify-row">
-            <button type="submit" class="cara-btn btn-sendcode" id="btn_sendcode" name="sendcode" value="sendcode">Send</button>
+            value="${email != null ? email : ''}"
+            style="margin-bottom:14px">
+          <div class="verify-row">
+            <!-- Gửi mã xác thực về email -->
+            <button type="submit" class="cara-btn" id="btn_sendcode" name="sendcode" value="sendcode" style="width:135px;"><fmt:message key="auth.verify.send"/></button>
             <input
               type="text"
-              placeholder="Enter code"
+              placeholder="${phVerifyCode}"
               id="verify_code_input"
               name="verifyCode"
               class="form-control">
           </div>
-          
-                                
+          <!-- Hiển thị thông báo từ controller -->
+          <c:choose>
+            <c:when test="${msgtype == 'sus'}">
+              <span id="msg_js" style="color:green;text-align:center;">${msg}</span>
+            </c:when>
+            <c:when test="${msgtype == 'error'}">
+              <span id="msg_js" style="color:red;text-align:center;">${msg}</span>
+            </c:when>
+          </c:choose>
         </div>
-        <button type="submit" class="cara-btn btn-reset-password" name="verifycode" value="verifycode">Reset Password</button>
+        <!-- Kiểm tra mã code nhập vào, nếu đúng sẽ chuyển trang -->
+        <button type="submit" class="cara-btn" name="verifycode" value="verifycode" style="margin-top:30px;width:100%;"><fmt:message key="auth.forgot.resetBtn"/></button>
         <hr>
-        <p>Remembered your password? <a href="/ClotheStore_war/login/signin">Sign in</a></p>
+        <p><fmt:message key="auth.forgot.remembered"/> <a href="${ ctx}/login/signin"><fmt:message key="auth.signin.link"/></a></p>
       </form>
     </section>
-    
-
-
-    <footer class="section-p1">
-        <div class=" col">
-            <img class="logo" src="/ClotheStore_war/assert/img/logo.png" alt="">
-            <h4>Contact</h4>
-            <p><Strong>Address:</Strong> 562 Wellington Rood. Street 32. San Francisco</p>
-            <p><Strong>Phone:</Strong> +01 2222 365 /(+91) 01 2345 6789</p>
-            <p><Strong>Hours:</Strong> 10:00 - 18:00, Mon - Sa</p>
-
-            <div class="follow">
-                <h4>Follow us</h4>
-                <div class="icon">
-                    <i class="fab fa-facebook-f"></i>
-                    <i class="fab fa-twitter"></i>
-                    <i class="fab fa-instagram"></i>
-                    <i class="fab fa-pinterest-p"></i>
-                    <i class="fab fa-youtube"></i>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
-            <h4>About</h4>
-            <a href="/ClotheStore_war/about"> About us</a>
-            <a href="/ClotheStore_war/user/orders_shipping"> Delivery Infomation</a>
-            <a href="/ClotheStore_war/policy"> Privacy Policy</a>
-            <a href="/ClotheStore_war/terms"> Terms & Conditions</a>
-            <a href="/ClotheStore_war/contact"> Contact Us</a>
-        </div>
-        <div class="col">
-            <h4>My Account</h4>
-			<a href="/ClotheStore_war/login/signin">Sign In</a>
-	        <a href="/ClotheStore_war/cart">View Cart</a>
-
-            <a href="#"> My Wishlist</a>
-            <a href="/ClotheStore_war/user/orders_shipping"> Track My Orderr</a>
-            <a href="/ClotheStore_war/contact"> Help</a>
-        </div>
-
-        <div class="col install">
-            <h4>Install App</h4>
-            <p>Form App Store or Google Play</p>
-            <div class="row">
-                <img src="/ClotheStore_war/assert/img/pay/app.jpg" alt="">
-                <img src="/ClotheStore_war/assert/img/pay/play.jpg" alt="">
-
-            </div>
-            <p>Secured Payment Gateways</p>
-            <img src="/ClotheStore_war/assert/img/pay/pay.png" alt="">
-
-        </div>
-
-        <div class="copyright">
-            <p>© 2021, Tech2 etc - HTML CSS Ecommerce Template</p>
-        </div>
-    </footer>
-    <script src="/ClotheStore_war/assert/javascript/checkPassword.js"></script>
-    <script src="/ClotheStore_war/assert/javascript/script.js"></script>
+    <%@ include file="../includes/footer.jsp" %>
+    <script src="${pageContext.request.contextPath}/assert/javascript/checkPassword.js"></script>
+    <script src="${pageContext.request.contextPath}/assert/javascript/script.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   </body>
 </html>
