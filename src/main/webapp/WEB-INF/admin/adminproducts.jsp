@@ -65,7 +65,7 @@
                                 <th>Mã sản phẩm</th>
                                 <th>Tên sản phẩm </th>
                                 <th>Loại</th>
-                                <th>Số lượng</th>
+                                <th>Giá</th>
                                 <th>Còn lại</th>
                                 <th>Trạng thái</th>
                             </tr>
@@ -134,7 +134,7 @@
                                     <div class="col-md-6">
                                        <label class="form-label">Danh mục</label>
                                        <select id="modal_categoryProducts" name="categoryID" class="form-select" required>
-                                          <option value="">-- Chọn Danh Mục --</option>
+                                          <option value="">-- Chọn danh mục --</option>
                                           <c:forEach items="${categoryList}" var="c">
                                              <option value="${c.categoryID}">
                                                 ${c.categoryName}
@@ -159,7 +159,7 @@
                                     </div>
                                     <!-- Description -->
                                     <div class="col-md-12">
-                                       <label class="form-label">Mô tả sản phẩm</label>
+                                       <label class="form-label">Mô tả</label>
                                        <textarea id="modal_textarea" name="description"
                                           class="form-control"
                                           rows="3"></textarea>
@@ -198,7 +198,7 @@
             <section>
                <h6>Công cụ</h6>
                <div>
-                  <button class="btn btn-primary mt-2"  data-bs-toggle="modal" data-bs-target="#productModal"><i class="bi bi-plus"></i> Add</button>
+                  <button class="btn btn-primary mt-2"  data-bs-toggle="modal" data-bs-target="#productModal"><i class="bi bi-plus"></i> Thêm sản phẩm</button>
                   <!-- Modal -->
                   <div class="modal fade" id="productModal" tabindex="-1"
                      aria-labelledby="productModalLabel" aria-hidden="true">
@@ -226,7 +226,7 @@
                                     <div class="col-md-6">
                                        <label class="form-label">Danh mục</label>
                                        <select name="categoryID" class="form-select" required>
-                                          <option value="">-- Chọn Danh Mục --</option>
+                                          <option value="">-- Chọn danh mục --</option>
                                           <c:forEach items="${categoryList}" var="c">
                                              <option value="${c.categoryID}">
                                                 ${c.categoryName}
@@ -289,25 +289,5 @@
             </section>
          </div>
       </div>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" ></script>
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script src="${ctx}/assert/javascript/adminAjax.js"></script>
-            
-      <script>
-         document.querySelectorAll(".order-row").forEach(row => {
-             row.addEventListener("click", function () {
-                 window.location.href = this.dataset.href;
-             });
-         });
-         function previewImage(event) {
-        	    const file = event.target.files[0];
-        	    if (!file) return;
-
-        	    const img = document.getElementById("preview");
-        	    img.src = URL.createObjectURL(file);
-        	    img.style.display = "block";
-        	}
-         	
-      </script>
    </body>
 </html>
