@@ -590,5 +590,43 @@ public class OrdersDao extends BaseDao {
             throw new RuntimeException(e);
         }
     }
+    public List<OrderDetail> selectProductsUsedBuy(int userID) {
+        List<OrderDetail> list = new ArrayList<OrderDetail>();
+        Products p = null;
+        ProductVariants pv = null;
+        String sql = "SELECT  od.quantity,  p.categoryID,od.orderDetailID,od.productID,	 p.productsName, p.img,od.price,CASE  WHEN r.order_detail_id IS NULL THEN 0	 ELSE 1		END AS isReviewed	FROM orders o  				"
+                + "JOIN order_details od   ON od.orderID = o.orderID "
+                + "JOIN products p   ON p.ProductsID = od.productID "
+                + " JOIN products_variants pv ON pv.variantID = od.variantID 	"
+                + "LEFT JOIN reviews r ON r.order_detail_id = od.orderDetailID "
+                + "WHERE o.userID =? AND o.status = 'SUCCESS';";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setInt(1, userID);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                OrderDetail od = new OrderDetail();
+                p = new Products();
+                pv = new ProductVariants();
+
+                p.setProductName(rs.getString("productsName"));
+                p.setImg(rs.getString("img"));
+                p.setCategoryID(rs.getInt("categoryID"));
+                od.setQuantity(rs.getInt("quantity"));
+                od.setOrderDetailID(rs.getInt("orderDetailID"));
+                od.setPrice(rs.getBigDecimal("price"));
+                od.setProductID(rs.getInt("productID"));
+                od.setProduct(p);
+                od.setReview((rs.getInt("isReviewed") == 1 ? true : false));
+                od.setVariant(pv);
+                list.add(od);
+            }
+
+            return list;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
