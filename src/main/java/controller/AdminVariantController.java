@@ -76,3 +76,77 @@ public class AdminVariantController extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/admin/adminVariant.jsp").forward(request, response);
     }
 
+//Khóa biến thể sản phẩm
+
+    private void lockVariant(HttpServletRequest request, HttpServletResponse response, String id, AdminVariantDao dao)
+            throws IOException {
+        String productId = request.getParameter("pid");
+        try {
+            int variantId = Integer.parseInt(id);
+            dao.lockVariant(variantId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        response.sendRedirect(request.getContextPath() + "/admin/variant?id=" + productId);
+    }
+
+//Mở khóa biến thể sản phẩm
+
+    private void unlockVariant(HttpServletRequest request, HttpServletResponse response, String id, AdminVariantDao dao)
+            throws IOException {
+        String productId = request.getParameter("pid");
+        try {
+            int variantId = Integer.parseInt(id);
+            dao.unLockVariant(variantId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        response.sendRedirect(request.getContextPath() + "/admin/variant?id=" + productId);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String path = request.getPathInfo();
+
+        if (path == null) {
+            doGet(request, response);
+            return;
+        }
+
+        switch (path) {
+            case "/add":
+                addVariant(request, response);
+                break;
+            case "/getModify":
+                getVariantModify(request, response);
+                break;
+            case "/modify":
+                modifyVariant(request, response);
+                break;
+            default:
+                doGet(request, response);
+                break;
+        }
+    }
+
+//Thêm biến thể sản phẩm mới
+
+    private void addVariant(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+        request.setCharacterEncoding("UTF-8");
+        AdminVariantDao dao = new AdminVariantDao();
+
+        int productID = Integer.parseInt(request.getParameter("productID"));
+        String size = request.getParameter("size");
+        int stock = Integer.parseInt(request.getParameter("stock"));
+        BigDecimal priceAdjustment = new BigDecimal(request.getParameter("priceAdjustment"));
+        String status = request.getParameter("status");
+
+        ProductVariants pv = new ProductVariants(productID, size, priceAdjustment, stock, status);
+        if (dao.insertVariant(pv)) {
+            response.sendRedirect(request.getContextPath() + "/admin/variant?id=" + productID);
+        }
+    }
+}
+
