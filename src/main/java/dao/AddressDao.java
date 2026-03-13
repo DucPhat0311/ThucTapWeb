@@ -90,4 +90,31 @@ public class AddressDao extends BaseDao {
 
         }
     }
+    public boolean updateAllIsDefaultAddress(int userID) {
+        String sql = "UPDATE  address SET isDefault = 0 where userID=?";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setInt(1, userID);
+
+            int result = ps.executeUpdate();
+            return result >0;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public boolean updateCurrentAddressByID(int id, int userID) {
+        // reset lại các point
+        updateAllIsDefaultAddress(userID);
+        String sql = "UPDATE  address SET isDefault = 1 where addressID=?  AND userID=? ";
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql);) {
+
+            ps.setInt(1, id);
+            ps.setInt(2, userID);
+
+            int result = ps.executeUpdate();
+            return result >0;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
