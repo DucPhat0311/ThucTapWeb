@@ -83,4 +83,19 @@ public class UserDao extends BaseDao {
 
         }
     }
+    public boolean checkAccount(String username) {
+        String sql = "SELECT * FROM USERS WHERE username=?";
+
+        try (Connection conn = getConnection(); PreparedStatement pst = conn.prepareStatement(sql);) {
+
+            pst.setString(1, username);
+            ResultSet result = pst.executeQuery();
+            return result.next();
+        } catch (Exception e) {
+            // TODO: handle exception
+            throw new RuntimeException(e);
+
+        }
+
+    }
 }
