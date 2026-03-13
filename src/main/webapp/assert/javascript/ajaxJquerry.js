@@ -1,8 +1,7 @@
-// sproduct thêm san pham vaoo cart
+// gửi data lên server
 function sendDataCart(variantId, quanity) {
-
     $.ajax({
-        url: 'cart?action=AddProduct',
+        url: window.ctx + '/cart?action=AddProduct',
         type: 'POST',
         data: {
             variantID: variantId,
@@ -31,6 +30,32 @@ function sendDataCart(variantId, quanity) {
     });
 }
 
+// cập nhataj giao diện cho giá tiền
+function updatePriceDisplay() {
+    const select = document.getElementById("selectTagSize");
+    const displayPrice = document.getElementById("displayPrice");
+
+    const selectedOption = select.options[select.selectedIndex];
+
+    if (selectedOption) {
+        const price = parseFloat(selectedOption.dataset.finalPrice) || 0;
+
+        displayPrice.innerText = price.toLocaleString('vi-VN') + " VNĐ";
+    }
+}
+
+// cập nht giao diện cho stock
+function updateStockDisplay() {
+    const select = document.getElementById("selectTagSize");
+    const remainSpan = document.getElementById("remainSpan");
+    const selectedOption = select.options[select.selectedIndex];
+
+    if (selectedOption) {
+        remainSpan.textContent = selectedOption.dataset.stock;
+    }
+}
+
+// kiểm tra lỗi trc khi gửi đi
 function addToCart() {
     const select = document.getElementById("selectTagSize");
     const qtyInput = document.getElementById("quanity");
@@ -41,7 +66,7 @@ function addToCart() {
     const quantity = parseInt(qtyInput.value);
 
     if (!variantID) {
-        alert("Chọn kích thước giùm tôi");
+        alert("Vui lòng chọn kích thước sản phẩm!");
         return;
     }
     if (quantity <= 0) {
@@ -49,10 +74,25 @@ function addToCart() {
         return;
     }
     if (quantity > stock) {
-        alert("Chỉ còn " + stock + " sản phẩm cho size này.");
+        alert("Xin lỗi, trong kho chỉ còn " + stock + " sản phẩm cho size này.");
         return;
     }
-
-    // Gọi hàm AJAX gửi đi (sproduct)
+// ok and pass
     sendDataCart(variantID, quantity);
 }
+
+
+// lắng nghe r change
+document.addEventListener("DOMContentLoaded", function() {
+    const select = document.getElementById("selectTagSize");
+
+    // cập nhật giá khi ĐỔI size
+    select.addEventListener("change", function() {
+        updateStockDisplay();
+        updatePriceDisplay();
+    });
+
+    // default
+    updateStockDisplay();
+    updatePriceDisplay();
+});
