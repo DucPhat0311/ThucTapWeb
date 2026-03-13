@@ -2,7 +2,11 @@ package model;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import dao.ProductsDao;
 
 public class Cart {
 	private List<CartItems> items = new ArrayList<>();

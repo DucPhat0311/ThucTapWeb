@@ -93,7 +93,7 @@
         </div>
 
         <div>
-            <button class="normal" id="btn_AddToCart" ><fmt:message key="product.add_to_cart"/></button>
+            <button class="normal" id="btn_AddToCart" onclick="addToCart()"><fmt:message key="product.add_to_cart"/></button>
         </div>
 
 
