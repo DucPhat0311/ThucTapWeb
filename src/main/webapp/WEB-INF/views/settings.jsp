@@ -106,8 +106,16 @@
 
 
    	<%@ include file="../includes/footer.jsp" %>
+   <script src="${pageContext.request.contextPath}/assert/javascript/script.js"></script>
 
-    
+   <script>
+       showHiddenPassword("new-password", "icon_show");
+       showHiddenPassword("confirm-password", "icon_show_0");
+   </script>
+
+   <script src="${pageContext.request.contextPath}/assert/javascript/checkPassword.js"></script>
+
+
 </body>
 
 </html>

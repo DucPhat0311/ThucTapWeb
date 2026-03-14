@@ -132,7 +132,11 @@
 
 
    	<%@ include file="../includes/footer.jsp" %>
-    
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   <script src="${pageContext.request.contextPath}/assert/javascript/checkPassword.js"></script>
+   <script src="${pageContext.request.contextPath}/assert/javascript/script.js"></script>
+
+
 </body>
 
 </html>

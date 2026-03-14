@@ -129,6 +129,15 @@
 
    	<%@ include file="../includes/footer.jsp" %>
 
+
+   <script src="${pageContext.request.contextPath}/assert/javascript/script.js"></script>
+   <script src="${pageContext.request.contextPath}/assert/javascript/checkPassword.js"></script>
+   <script>
+       showHiddenPassword("pwd", "icon_show");
+       showHiddenPassword("pwd_confirm", "icon_show_0");
+
+       checkPasswordRealtime("pwd", "pwd_confirm", "msg_js", "update");
+   </script>
         
 </body>
 

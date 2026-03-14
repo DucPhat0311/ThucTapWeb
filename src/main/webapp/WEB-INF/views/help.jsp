@@ -79,6 +79,7 @@
     </div>
 
     <%@ include file="../includes/footer.jsp" %>
+    <script src="${pageContext.request.contextPath}/assert/javascript/script.js"></script>
 
 </body>
 </html>

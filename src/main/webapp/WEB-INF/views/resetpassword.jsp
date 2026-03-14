@@ -63,6 +63,10 @@
         </form>
     </section>
     <%@ include file="../includes/footer.jsp" %>
-
+    <script src="${pageContext.request.contextPath}/assert/javascript/script.js"></script>
+    <script>
+        showHiddenPassword("pwd_new", "icon_show_new");
+        showHiddenPassword("pwd_confirm_new", "icon_show_confirm_new");
+    </script>
 </body>
 </html>

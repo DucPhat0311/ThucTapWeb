@@ -220,6 +220,49 @@
          </form>
       </div>
       <%@ include file="../includes/footer.jsp" %>
+                       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+                       <script src="${ctx}/assert/javascript/script.js"></script>
+                       <script src="${ctx}/assert/javascript/checkout_user.js"></script>
+                       <script>
+                           document.addEventListener("DOMContentLoaded", function () {
+
+                               const cards = document.querySelectorAll('.address-card');
+
+                               cards.forEach(card => {
+                                   card.addEventListener('click', function () {
+
+                                       cards.forEach(c => c.classList.remove('selected'));
+
+                                       this.classList.add('selected');
+                                       this.querySelector('input[type="radio"]').checked = true;
+
+                                       getPriceShipping(this);
+                                   });
+                               });
+
+                               // 🔥 AUTO LOAD khi mới vào trang
+                               const checkedRadio = document.querySelector(
+                                   '.address-card input[type="radio"]:checked'
+                               );
+
+                               if (checkedRadio) {
+                                   const card = checkedRadio.closest('.address-card');
+                                   card.classList.add('selected');
+                                   getPriceShipping(card);
+                               }
+
+                           });
+
+
+                           // Payment method selection
+                           document.querySelectorAll('.payment-method').forEach(method => {
+                               method.addEventListener('click', function () {
+                                   document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('active'));
+                                   this.classList.add('active');
+                                   this.querySelector('input[type="radio"]').checked = true;
+                               });
+                           });</script>
 
    </body>
 </html>
