@@ -128,6 +128,9 @@ public class CartController extends HttpServlet {
                 case "getShippingPrice":
                     getShippingPrice(request, response);
                     break;
+                case "applyVouchers":
+                    ApplyVouchers(request, response);
+                    break;
                 default:
                     throw new IllegalArgumentException("no: " + action);
             }
@@ -204,5 +207,14 @@ public class CartController extends HttpServlet {
         response.setContentType("application/json;charset=UTF-8");
 
         response.getWriter().write("{\"price\":" + price.toPlainString() + "}");
+    }
+    private void ApplyVouchers(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // TODO Auto-generated method stub
+        String getVouchersCode = request.getParameter("voucher_name");
+        ServicesTaxDao dao = new ServicesTaxDao();
+        BigDecimal getDiscount = dao.isCodeValid(getVouchersCode);
+
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write("{\"price\":" + getDiscount.toPlainString() + "}");
     }
 }
