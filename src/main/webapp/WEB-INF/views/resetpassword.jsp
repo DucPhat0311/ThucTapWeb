@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
         <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
- <fmt:setLocale value="${sessionScope.lang != null ? sessionScope.lang : 'en'}" />
+ <fmt:setLocale value="${sessionScope.lang != null ? sessionScope.lang : 'vi'}" />
 	<fmt:setBundle basename="messages" />
 <fmt:message key="auth.brand" var="brandName"/>
 <fmt:message key="auth.reset.pageTitle" var="pageTitle"/>
@@ -11,7 +11,7 @@
 <fmt:message key="auth.newPassword.placeholder" var="phNewPassword"/>
 <fmt:message key="auth.confirmPassword.placeholder" var="phConfirmPassword"/>
 <!DOCTYPE html>
-<html lang="${sessionScope.lang != null ? sessionScope.lang : 'en'}">
+<html lang="${sessionScope.lang != null ? sessionScope.lang : 'vi'}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
