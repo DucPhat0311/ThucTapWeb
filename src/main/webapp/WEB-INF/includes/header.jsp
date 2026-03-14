@@ -8,8 +8,9 @@
 <script>
     window.ctx = "${ctx}";
 </script>
-<fmt:setLocale value="${sessionScope.lang}" />
+<fmt:setLocale value="${empty sessionScope.lang ? 'vi' : sessionScope.lang}" />
 <fmt:setBundle basename="messages" scope="session"/>
+
 
 <section id=header>
     <a href="${ctx}/home" class="${active=='index'?'active':'' }" > <img src="${ctx}/assert/img/logo.png" class="logo" alt=""></a>
@@ -55,8 +56,8 @@
                 </c:otherwise>
             </c:choose>
 
-            <li> <a href="${ctx }/changelanguage?lang=vi" class="${sessionScope.lang == 'vi' ? 'active' : ''}">VI</a> |
-                <a href="${ctx }/changelanguage?lang=en" class="${sessionScope.lang == 'en' || sessionScope.lang == null  ? 'active' : ''}">EN</a></li>
+            <li> <a href="${ctx }/changelanguage?lang=vi" class="${sessionScope.lang == 'vi' || sessionScope.lang == null ? 'active' : ''}">VI</a> |
+                <a href="${ctx }/changelanguage?lang=en" class="${sessionScope.lang == 'en'  ? 'active' : ''}">EN</a></li>
             <a href="#" id="close"> <i class="bi bi-x-lg"></i></a>        </ul>
 
     </div>

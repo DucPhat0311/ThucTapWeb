@@ -4,7 +4,7 @@
 
 <c:set var="ctx" value="${pageContext.request.contextPath }"/>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<fmt:setLocale value="${sessionScope.lang}" />
+<fmt:setLocale value="${empty sessionScope.lang ? 'vi' : sessionScope.lang}" />
 <fmt:setBundle basename="messages" scope="session"/>
 <footer class="section-p1">
     <div class=" col">
