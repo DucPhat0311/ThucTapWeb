@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import dao.AddressDao;
+import dao.OrdersDao;
 import dao.ProductVariantsDao;
 import dao.ProductsDao;
 import model.*;
@@ -123,6 +125,9 @@ public class CartController extends HttpServlet {
                 case "OnchangeQuanity":
                     changeQuanity(request, response);
                     break;
+                case "orders":
+                    getOrders(request, response);
+                    break;
                 default:
                     throw new IllegalArgumentException("no: " + action);
             }
@@ -131,6 +136,60 @@ public class CartController extends HttpServlet {
             request.setAttribute("active", "cart");
             request.getRequestDispatcher("/WEB-INF/views/cart.jsp").forward(request, response);
 
+        }
+    }
+    private void getOrders(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+        // TODO Auto-generated method stub
+        OrdersDao dao = new OrdersDao();
+        HttpSession session = request.getSession(false);
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        Cart cart = (Cart) session.getAttribute("Cart");
+        String getAddressId = request.getParameter("address");
+        String shipping_fee = request.getParameter("shipping");
+        String getNote = request.getParameter("note");
+        String getSubTotal = request.getParameter("subtotal");
+        String getPaymentMethod = request.getParameter("payment");
+        String getDiscount = request.getParameter("discount_fee");
+        String getTotalAmount = request.getParameter("finalTotal");
+
+        try {
+
+            // các giá trị bị dính prefix đồng tiền ở cuối ví dụ: 78 đ
+
+            int addID = Integer.parseInt(getAddressId);
+            BigDecimal shipping =pareString(shipping_fee);
+            BigDecimal subtotal = pareString(getSubTotal);
+
+            BigDecimal discount = pareString(getDiscount);
+
+            BigDecimal total = pareString(getTotalAmount);
+
+            Order or = new Order(userSession.getIdUser(), addID, shipping, getNote, subtotal, getPaymentMethod,
+                    discount, total);
+
+            int key = dao.insertOrders(or);
+            if (key >= 0) {
+                for (int i = 0; i < cart.getSize(); i++) {
+                    OrderDetail od = new OrderDetail(key, cart.getItems().get(i).getProducts().getProductID(), cart.getItems().get(i).getVariantID(),
+                            cart.getItems().get(i).getQuanity(), cart.getItems().get(i).getSubtotal());
+                    dao.insertOrdersDetails(od);
+                }
+            }
+            session.removeAttribute("Cart"); // xóa cart trong session
+            response.sendRedirect(request.getContextPath() + "/user/orders_his");
+            return;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        request.getRequestDispatcher("/WEB-INF/views/checkout_user.jsp").forward(request, response);
+
+    }
+    private BigDecimal pareString(String str) {
+        if(str.isEmpty()) {
+            return BigDecimal.ZERO;
+        }else {
+            return new BigDecimal(str);
         }
     }
 
