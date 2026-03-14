@@ -131,6 +131,9 @@ public class CartController extends HttpServlet {
                 case "applyVouchers":
                     ApplyVouchers(request, response);
                     break;
+                case "changeStatusOrder":
+                    changeStatusOrder(request, response);
+                    break;
                 default:
                     throw new IllegalArgumentException("no: " + action);
             }
@@ -141,6 +144,7 @@ public class CartController extends HttpServlet {
 
         }
     }
+
     private void getOrders(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
         // TODO Auto-generated method stub
@@ -161,7 +165,7 @@ public class CartController extends HttpServlet {
             // các giá trị bị dính prefix đồng tiền ở cuối ví dụ: 78 đ
 
             int addID = Integer.parseInt(getAddressId);
-            BigDecimal shipping =pareString(shipping_fee);
+            BigDecimal shipping = pareString(shipping_fee);
             BigDecimal subtotal = pareString(getSubTotal);
 
             BigDecimal discount = pareString(getDiscount);
@@ -188,13 +192,15 @@ public class CartController extends HttpServlet {
         request.getRequestDispatcher("/WEB-INF/views/checkout_user.jsp").forward(request, response);
 
     }
+
     private BigDecimal pareString(String str) {
-        if(str.isEmpty()) {
+        if (str.isEmpty()) {
             return BigDecimal.ZERO;
-        }else {
+        } else {
             return new BigDecimal(str);
         }
     }
+
     private void getShippingPrice(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // TODO Auto-generated method stub
         request.setCharacterEncoding("UTF-8");
@@ -208,6 +214,7 @@ public class CartController extends HttpServlet {
 
         response.getWriter().write("{\"price\":" + price.toPlainString() + "}");
     }
+
     private void ApplyVouchers(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // TODO Auto-generated method stub
         String getVouchersCode = request.getParameter("voucher_name");
@@ -216,5 +223,19 @@ public class CartController extends HttpServlet {
 
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write("{\"price\":" + getDiscount.toPlainString() + "}");
+    }
+
+    private void changeStatusOrder(HttpServletRequest request, HttpServletResponse response) {
+        String orderID = request.getParameter("orderID");
+        try {
+            int id = Integer.parseInt(orderID);
+            OrdersDao dao = new OrdersDao();
+            if (dao.updateStatusOrderByID(id)) {
+                response.setStatus(HttpServletResponse.SC_OK);
+            }
+            ;
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
     }
 }
