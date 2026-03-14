@@ -77,11 +77,73 @@ public class UserController extends HttpServlet {
                 break;
 
             case "/orders_shipping":
-                request.getRequestDispatcher("/WEB-INF/views/orders_shipping2.jsp")
-                        .forward(request, response);
-                break;
+            condition = request.getParameter("search");
+            if(condition != null) {
+                switch (condition) {
+                    case "today":
+                        selected = "today";
+                        listOrder = orDao.selectOrdersByTodayShipping(userSession.getIdUser());
+                        break;
+                    case "week":
+                        selected = "week";
 
+                        listOrder = orDao.selectOrdersByWeekShipping(userSession.getIdUser());
+                        break;
+                    case "month":
+                        selected = "month";
+                        listOrder = orDao.selectOrdersByMonthShipping(userSession.getIdUser());
+                        break;
+                    case "all":
+                        selected = "all";
+                        listOrder = orDao.selectOrderByUserIDShipping(userSession.getIdUser());
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Unexpected value: " + condition);
+                }
+            }else {
+                selected = "all";
+                listOrder = orDao.selectOrderByUserIDShipping(userSession.getIdUser());
+            }
+            request.setAttribute("choose", selected);
+            request.setAttribute("orders", listOrder);
+            request.setAttribute("account",5);
+
+            request.getRequestDispatcher("/WEB-INF/views/orders_shipping2.jsp")
+                    .forward(request, response);
+            break;
             case "/orders_delivered":
+
+                condition = request.getParameter("search");
+                if(condition != null) {
+                    switch (condition) {
+                        case "today":
+                            selected = "today";
+                            listOrder = orDao.selectOrdersByTodayDelivered(userSession.getIdUser());
+                            break;
+                        case "week":
+                            selected = "week";
+
+                            listOrder = orDao.selectOrdersByWeekDelivered(userSession.getIdUser());
+                            break;
+                        case "month":
+                            selected = "month";
+                            listOrder = orDao.selectOrdersByMonthDelivered(userSession.getIdUser());
+                            break;
+                        case "all":
+                            selected = "all";
+                            listOrder = orDao.selectOrdersByDelivered(userSession.getIdUser());
+                            break;
+                        default:
+                            throw new IllegalArgumentException("Unexpected value: " + condition);
+                    }
+                }else {
+                    selected = "all";
+                    listOrder = orDao.selectOrdersByDelivered(userSession.getIdUser());
+                }
+                request.setAttribute("choose", selected);
+                request.setAttribute("orders", listOrder);
+                request.setAttribute("account",6);
+
                 request.getRequestDispatcher("/WEB-INF/views/orders_delivered2.jsp")
                         .forward(request, response);
                 break;
