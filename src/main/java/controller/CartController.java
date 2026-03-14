@@ -11,10 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import dao.AddressDao;
-import dao.OrdersDao;
-import dao.ProductVariantsDao;
-import dao.ProductsDao;
+import dao.*;
 import model.*;
 
 @WebServlet("/cart/*")
@@ -128,7 +125,9 @@ public class CartController extends HttpServlet {
                 case "orders":
                     getOrders(request, response);
                     break;
-
+                case "getShippingPrice":
+                    getShippingPrice(request, response);
+                    break;
                 default:
                     throw new IllegalArgumentException("no: " + action);
             }
@@ -193,5 +192,17 @@ public class CartController extends HttpServlet {
             return new BigDecimal(str);
         }
     }
+    private void getShippingPrice(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // TODO Auto-generated method stub
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        String getCity = request.getParameter("city");
 
+        ServicesTaxDao dao = new ServicesTaxDao();
+        BigDecimal price = dao.getPriceByCity(getCity);
+
+        response.setContentType("application/json;charset=UTF-8");
+
+        response.getWriter().write("{\"price\":" + price.toPlainString() + "}");
+    }
 }
