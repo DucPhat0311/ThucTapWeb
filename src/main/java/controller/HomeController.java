@@ -27,7 +27,7 @@ public class HomeController extends HttpServlet {
         ProductsDao dao = new ProductsDao();
 
         String url ="/WEB-INF/views/index.jsp";
-        List<Products> pro1 = dao.SelectAll(0, 16);
+        List<Products> pro1 = dao.SelectAll();
 
         request.setAttribute("active", "index");
         request.setAttribute("Product1", pro1);
