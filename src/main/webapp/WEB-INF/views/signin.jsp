@@ -4,6 +4,8 @@
            <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <fmt:setLocale value="${sessionScope.lang != null ? sessionScope.lang : 'vi'}" />
 <fmt:setBundle basename="messages" />
+<fmt:message key="auth.brand" var="brandName"/>
+<fmt:message key="auth.signin.title" var="signinTitle"/>
 <fmt:message key="auth.username.placeholder" var="phUsername"/>
 <fmt:message key="auth.password.placeholder" var="phPassword"/>
 <!DOCTYPE html>
@@ -13,7 +15,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tech2etc Ecommerce Tutorial</title>
+    <title>${signinTitle} | ${brandName}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -34,8 +36,8 @@
    <section id="signup">
         <form action="${ctx }/login/login" method="POST">
             <div class="signup_Header">
-                <h1> Cara Clothes</h1>
-                <h2>Sign in</h2>
+                <h1>${brandName}</h1>
+                <h2>${signinTitle}</h2>
             </div>
             <div class="signup_Main">
                 <input type="text" placeholder="${phUsername}" required name="username" value="${AccountCookies.username }">
@@ -70,7 +72,8 @@
       <%@ include file="../includes/footer.jsp" %>
 
        <script src="${pageContext.request.contextPath}/assert/javascript/script.js"></script>
-       <script>
+	   <script src="${pageContext.request.contextPath}/assert/javascript/checkPassword.js"></script>
+    <script>
         showHiddenPassword("pwd", "icon_show");
     </script>
 </body>

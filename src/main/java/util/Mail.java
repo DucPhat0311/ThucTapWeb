@@ -14,8 +14,8 @@ import java.util.Properties;
 
 public class Mail {
 
-    private final String password ="wswc dhfn imgo akle";
-	private final String from = "nguyenvananhhan555@gmail.com";
+    private final String password ="wujc uhjb pawe msbd";
+	private final String from = "webne26@gmail.com";
 	private Session session;
 	
 	public Mail() {
