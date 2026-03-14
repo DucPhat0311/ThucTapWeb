@@ -1,8 +1,9 @@
 package controller;
 
+import dao.AddressDao;
 import dao.OrdersDao;
-import model.Order;
-import model.UserSession;
+import dao.UserDao;
+import model.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -34,11 +35,6 @@ public class UserController extends HttpServlet {
 
 
         switch (path) {
-
-            case "/review":
-                request.getRequestDispatcher("/WEB-INF/views/reviews.jsp")
-                        .forward(request, response);
-                break;
 
             case "/orders_his":
 
@@ -148,21 +144,47 @@ public class UserController extends HttpServlet {
                         .forward(request, response);
                 break;
 
+            case "/review":
+                List<OrderDetail> odList = orDao.selectProductsUsedBuy(userSession.getIdUser());
+                request.setAttribute("account",8);
+                request.setAttribute("od", odList);
+                request.getRequestDispatcher("/WEB-INF/views/reviews.jsp")
+                        .forward(request, response);
+                break;
             case "/settings":
+
+                UserDao user = new UserDao();
+                User selectUser = user.selectUserByUserID(userSession.getIdUser());
+                String getMsgType = (String) session.getAttribute("msg_type");
+                String getMsg = (String) session.getAttribute("msg");
+
+                if(getMsgType !=null && getMsg !=null) {
+                    request.setAttribute("msg_type", getMsgType);
+                    request.setAttribute("msg", getMsg);
+                    session.removeAttribute("msg_type");
+                    session.removeAttribute("msg");
+
+                }
+
+                request.setAttribute("getProfile", selectUser);
+                request.setAttribute("account", 1);
                 request.getRequestDispatcher("/WEB-INF/views/settings.jsp")
                         .forward(request, response);
                 break;
-
             case "/security":
+                request.setAttribute("account", 2);
                 request.getRequestDispatcher("/WEB-INF/views/settings_security.jsp")
                         .forward(request, response);
                 break;
-
             case "/address":
+                AddressDao dao = new AddressDao();
+                List<Address> list = dao.selectAddressByUserID(userSession.getIdUser());
+
+                request.setAttribute("address", list);
+                request.setAttribute("account", 3);
                 request.getRequestDispatcher("/WEB-INF/views/settings_address.jsp")
                         .forward(request, response);
                 break;
-
             case "/help":
                 request.getRequestDispatcher("/WEB-INF/views/help.jsp")
                         .forward(request, response);
