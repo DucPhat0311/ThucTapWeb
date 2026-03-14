@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
@@ -38,7 +39,26 @@ public class ShopController extends HttpServlet {
             case "SProduct":
                 ShowSProduct(request,response);
                 break;
+            case "search":
+                searchHandle(request, response);
+                break;
         }
+    }
+
+    private void searchHandle(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+
+        String keyword = request.getParameter("keyword");
+        String url = "/WEB-INF/views/shop.jsp";
+        ProductsDao dao = new ProductsDao();
+        List<Products> productsSearch = dao.selectProductsByKeyWord(keyword);
+
+        request.setAttribute("key", keyword);
+        request.setAttribute("ListProducts", productsSearch);
+
+        getServletContext().getRequestDispatcher(url).forward(request, response);
+
     }
 
 
