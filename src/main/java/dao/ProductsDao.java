@@ -32,6 +32,32 @@ public class ProductsDao extends BaseDao {
         return products;
     }
 
+    public List<Products> selectProductsByKeyWord(String name){
+        List<Products> list= new ArrayList<Products>();
+        String sql = "SELECT * FROM products WHERE productsName LIKE ? AND STATUS='ACTIVE'";
+        Products p;
+        try (Connection conn = getConnection(); PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, "%"+name+"%");
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                p= new Products();
+                p.setProductName(rs.getString("productsName"));
+                p.setPrice(rs.getBigDecimal("price"));
+                p.setImg(rs.getString("img"));
+                p.setProductID(rs.getInt("ProductsID"));
+                p.setCategoryID(rs.getInt("categoryID"));
+                list.add(p);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+
+    }
+
 
     // lấy các sản phẩm tương tự
     public List<Products> SelectByCategory(int type) {
