@@ -194,5 +194,68 @@ public class UserController extends HttpServlet {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
         }
     }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String path = request.getPathInfo();
+
+        switch (path) {
+            case "/addressUpdate":
+                addAddress(request,response);
+                break;
+            case "/removeAddress":
+                removeAddress(request,response);
+                break;
+            case "/updateCurrentAddress":
+                updateCurrentAddress(request,response);
+                break;
+
+            default:
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+        }
+    }
+    private void updateCurrentAddress(HttpServletRequest request, HttpServletResponse response) {
+        String id = request.getParameter("id");
+        if(id !=null) {
+            HttpSession session = request.getSession(false);
+            UserSession user = (UserSession) session.getAttribute("user");
+            int getAddressId = Integer.parseInt(id);
+            AddressDao addressDao = new AddressDao();
+            addressDao.updateCurrentAddressByID(getAddressId,user.getIdUser());
+            response.setStatus(HttpServletResponse.SC_OK);
+        }
+    }
+
+    private void removeAddress(HttpServletRequest request, HttpServletResponse response)  {
+        String id = request.getParameter("id");
+        if(id !=null) {
+            int getAddressId = Integer.parseInt(id);
+            AddressDao addressDao = new AddressDao();
+            addressDao.deleteAddressByID(getAddressId);
+            response.setStatus(HttpServletResponse.SC_OK);
+        }
+
+
+    }
+
+    private void addAddress(HttpServletRequest request, HttpServletResponse response) throws IOException  {
+        // TODO Auto-generated method stub
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        HttpSession session = request.getSession(false);
+        String getAddressLine = request.getParameter("fulladdress");
+        String getWard = request.getParameter("district");
+        String getCity = request.getParameter("city");
+        String getCountry = request.getParameter("country");
+        String phone = request.getParameter("phone");
+
+        AddressDao dao = new AddressDao();
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        int count = dao.isFirstAddress(userSession.getIdUser());
+        Address addr = new Address(getAddressLine,getCity,getWard,phone,userSession.getIdUser(),getCountry,(count == 0 ?true:false));
+        int getId =dao.addAddressByUserID(addr);
+
+        response.setContentType("application/json");
+        response.getWriter().write("{\"addressID\":" + getId +","+"\"count\":"+count + "}");
+
+    }
 
 }
