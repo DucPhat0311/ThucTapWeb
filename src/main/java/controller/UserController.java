@@ -2,6 +2,7 @@ package controller;
 
 import dao.AddressDao;
 import dao.OrdersDao;
+import dao.ServicesTaxDao;
 import dao.UserDao;
 import model.*;
 
@@ -211,6 +212,9 @@ public class UserController extends HttpServlet {
             case "/updateAccountInfo":
                 updateAccountInfo(request,response);
                 break;
+            case "/reviews":
+                reviewProducts(request,response);
+                break;
 
             default:
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -292,6 +296,27 @@ public class UserController extends HttpServlet {
 
         response.sendRedirect(request.getContextPath() +url);
 
+    }
+    private void reviewProducts(HttpServletRequest request, HttpServletResponse response) {
+        String getProductsID = request.getParameter("proid");
+        String getOrderDetailsID = request.getParameter("orderDetailID");
+        String getRating = request.getParameter("rating");
+        ServicesTaxDao dao = new ServicesTaxDao();
+        HttpSession session = request.getSession(false);
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        try {
+            int rate = Integer.parseInt(getRating);
+            int pid = Integer.parseInt(getProductsID);
+            int odid = Integer.parseInt(getOrderDetailsID);
+            reviews re = new reviews(odid, userSession.getIdUser(), pid, rate);
+            if (dao.insertReviewProducts(re)) {
+                response.setStatus(HttpServletResponse.SC_OK);
+
+            }
+            ;
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
     }
 
 }
