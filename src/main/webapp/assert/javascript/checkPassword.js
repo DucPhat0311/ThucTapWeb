@@ -1,3 +1,20 @@
+function showHiddenPassword(inputId, iconId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(iconId);
+
+    if (input && icon) {
+        icon.addEventListener("click", () => {
+            if (input.type === "password") {
+                input.type = "text";
+                icon.innerHTML = '<i class="bi bi-eye-slash"></i>';
+            } else {
+                input.type = "password";
+                icon.innerHTML = '<i class="bi bi-eye"></i>';
+            }
+        });
+    }
+}
+
 //Kiểm tra và nhận code ở signup
 
 function sendData() {
@@ -18,7 +35,12 @@ function sendData() {
              },
              body: `email=${encodeURIComponent(email)}`
          })
-         .then(response => response.json())
+         .then(response => {
+             if(!response.ok) {
+                 throw new Error("Lỗi HTTP: " + response.status);
+             }
+             return response.json();
+         })
          .then(data => {
 			console.log("Response data:", data.status); // Kiểm tra log để xem data trả về gì
 
@@ -39,7 +61,11 @@ function sendData() {
 				   }
              
          })
-         .catch(error => console.error("Error:", error));
+         .catch(error => {
+             console.error("Error:", error);
+             msgEmail.textContent = "Lỗi hệ thống khi gửi mail. Vui lòng check server console " + error.message;
+			 msgEmail.classList.add("text-danger");
+         });
      }
 function timeCodeVerify() {
     try {

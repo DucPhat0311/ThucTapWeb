@@ -55,7 +55,7 @@ public class LoginController extends HttpServlet {
 	        	session.removeAttribute("getMessage");
 	        		if(getMsg !=null ) {
 	        			request.setAttribute("msgtype", "sus");
-	        			request.setAttribute("msg", "Password change is success");
+	        			request.setAttribute("msg", "Đổi mật khẩu thành công!");
 	        		}
 	        		
 	            request.getRequestDispatcher("/WEB-INF/views/signin.jsp").forward(request, response);
@@ -118,7 +118,7 @@ public class LoginController extends HttpServlet {
 		if(!getNewPassCofirmForm.equals(getNewPassForm)) {
 
 			request.setAttribute("msg_type", "error");
-			request.setAttribute("msg", "Password is not match!");
+			request.setAttribute("msg", "Mật khẩu xác nhận không khớp!");
 			request.getRequestDispatcher(url).forward(request, response);
 			return;
 		}
@@ -132,7 +132,7 @@ public class LoginController extends HttpServlet {
 		if(!Encode.verify(getCurPassForm, user.getPassword())) {
 
 			request.setAttribute("msg_type", "error");
-			request.setAttribute("msg", "Password Current is not match!");
+			request.setAttribute("msg", "Mật khẩu hiện tại không đúng!");
 			
 			request.getRequestDispatcher(url).forward(request, response);
 			return;
@@ -205,8 +205,9 @@ public class LoginController extends HttpServlet {
 
 	    if (idao.checkAccount(username)) {
 	        url = "/WEB-INF/views/signup.jsp";
-	        msg = "Account is exits";
-	        request.setAttribute("error", msg);
+	        msg = "Tài khoản đã tồn tại";
+	        request.setAttribute("msg", msg);
+	        request.setAttribute("msgtype", "error");
 	        request.setAttribute("username", username);
 	        request.setAttribute("firstname", firstname);
 	        request.setAttribute("lastname", lastname);
@@ -214,8 +215,9 @@ public class LoginController extends HttpServlet {
 	        return;
 	    }
 	    if (!verifyCode.equals(codeInSession) || !email.equals(emailInSession)) {
-	        msg = "Code Verify not match";
-	        request.setAttribute("error", msg);
+	        msg = "Mã xác thực không khớp";
+	        request.setAttribute("msg", msg);
+	        request.setAttribute("msgtype", "error");
 	        request.setAttribute("username", username);
 	        request.setAttribute("firstname", firstname);
 	        request.setAttribute("lastname", lastname);
@@ -225,7 +227,7 @@ public class LoginController extends HttpServlet {
 	    } else {
 	        User user = new User(firstname, lastname, email, true, username, Encode.hash(password), 1);
 	        idao.addUser(user);
-	        msg = "Susscess register";
+	        msg = "Đăng ký thành công";
 	        request.setAttribute("msg", msg);
 	        request.setAttribute("msgtype", "sus");
 	        // XÓA session đã dùng!
@@ -247,17 +249,17 @@ public class LoginController extends HttpServlet {
 		UserDao dao = new UserDao();
 		
 		if(!dao.checkAccount(username)) {
-			msg= "Account not exists";
+			msg= "Tài khoản không tồn tại";
 		}else {
 			User user = dao.getFullName(username);
 			UserSession userSession = new UserSession(user.getIdUser(), user.getFirstName(),user.getLastName(), user.getRole());
 			boolean checkPass = Encode.verify(password, user.getPassword());
 			
 			if(!checkPass) {
-				msg = "Wrong username or password";
+				msg = "Sai tài khoản hoặc mật khẩu";
 			}else {
 				if(user.getStatus() ==0) {
-					msg = "Your account has been banned";
+					msg = "Tài khoản của bạn đã bị khóa";
 				}else if(user.getStatus() ==1){
 					if(checked) {
 						//Tạo token ngẫu nhiên
@@ -286,9 +288,9 @@ public class LoginController extends HttpServlet {
 					}
 		            return;
 				}else if(user.getStatus() ==2 ) {
-					msg = "Your account has been temporarily banned.";
+					msg = "Tài khoản của bạn đã bị khóa tạm thời.";
 				}else if(user.getStatus() ==-1 ) {
-					msg = "Your account has been delete.";
+					msg = "Tài khoản của bạn đã bị xóa.";
 				}
 			
 			}
@@ -371,14 +373,14 @@ public class LoginController extends HttpServlet {
 	    }
 	    //Kiểm tra password
 	    if (newPwd == null || confirmPwd == null || !newPwd.equals(confirmPwd)) {
-	        msg = "Password xác nhận không trùng khớp!";
+	        msg = "Mật khẩu xác nhận không khớp!";
 	        request.setAttribute("msg", msg);
 	        request.setAttribute("msgtype", "error");
 	        request.getRequestDispatcher(url).forward(request, response);
 	        return;
 	    }
 	    if (newPwd.length() < 6) {
-	        msg = "Password phải ít nhất 6 ký tự!";
+	        msg = "Mật khẩu phải có ít nhất 6 ký tự!";
 	        request.setAttribute("msg", msg);
 	        request.setAttribute("msgtype", "error");
 	        request.getRequestDispatcher(url).forward(request, response);

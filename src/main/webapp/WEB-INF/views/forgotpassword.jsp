@@ -5,7 +5,7 @@
 
 <fmt:setLocale value="${sessionScope.lang != null ? sessionScope.lang : 'vi'}" />
 <fmt:setBundle basename="messages" />
-
+<fmt:message key="auth.brand" var="brandName"/>
 <!DOCTYPE html>
 <html lang="${sessionScope.lang != null ? sessionScope.lang : 'vi'}">
 
@@ -13,7 +13,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Password</title>
+    <title>${forgotTitle} | ${brandName}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -28,10 +28,13 @@
 <body>
     <jsp:include page="../includes/header.jsp"></jsp:include>
     <c:set var="ctx" value="${pageContext.request.contextPath}" />
+    <fmt:message key="auth.forgot.title" var="forgotTitle" />
+    <fmt:message key="auth.email.placeholder" var="phEmail" />
+    <fmt:message key="auth.verify.placeholder" var="phVerifyCode" />
     <section id="signup">
       <form id="forgotform" action="${ctx }/login/forgotpassword" method="POST" autocomplete="off">
         <div class="signup_Header">
-          <h1>Cara Clothes</h1>
+          <h1>${brandName}</h1>
           <h2>${forgotTitle}</h2>
         </div>
         <div class="signup_Main">
