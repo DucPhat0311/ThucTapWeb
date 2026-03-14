@@ -31,10 +31,14 @@ public class ShopController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action= request.getParameter("action");
         request.setAttribute("active", "shop");
-      if (action.equals("SProduct"))
-      {
-          ShowSProduct(request,response);
-      }
+        switch (action) {
+            case "showCard":
+                ShopShowCard(request, response);
+                break;
+            case "SProduct":
+                ShowSProduct(request,response);
+                break;
+        }
     }
 
 
@@ -52,6 +56,17 @@ public class ShopController extends HttpServlet {
         request.setAttribute("TypeClothe", rq);
         request.setAttribute("sproduct", product);
         getServletContext().getRequestDispatcher("/WEB-INF/views/sproduct.jsp").forward(request, response);
+    }
+
+    public void ShopShowCard(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String url = "/WEB-INF/views/shop.jsp";
+        ProductsDao dao = new ProductsDao();
+        List<Products> products = dao.SelectAll();
+
+        request.setAttribute("ListProducts", products);
+
+        getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

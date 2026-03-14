@@ -11,16 +11,13 @@ import java.util.List;
 import static util.JDBCUtil.getConnection;
 
 public class ProductsDao extends BaseDao {
-    public List<Products> SelectAll(int offset, int limit) {
+    public List<Products> SelectAll() {
         List<Products> products = new ArrayList<>();
-        String sql = "Select * from Products WHERE status='ACTIVE' order by ProductsID Limit ? offset ?;";
+        String sql = "Select * from Products WHERE status='ACTIVE' order by ProductsID";
         try (Connection conn = getConnection();
 
              PreparedStatement ps = conn.prepareStatement(sql);) {
-            int getOff = offset * limit;
 
-            ps.setInt(1, limit);
-            ps.setInt(2, getOff);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 products.add(new Products(rs.getInt("ProductsID"), rs.getString("productsName"),
