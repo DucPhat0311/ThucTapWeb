@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.AddressDao;
 import dao.ProductVariantsDao;
 import dao.ProductsDao;
 import model.*;
@@ -34,8 +36,10 @@ public class CartController extends HttpServlet {
         if (path != null) {
             switch (path) {
                 case "/checkout":
+                    AddressDao address = new AddressDao();
+                    List<Address> getAddress = address.selectAddressByUserID(userSession.getIdUser());
+                    request.setAttribute("getAddress", getAddress);
                     request.getRequestDispatcher("/WEB-INF/views/checkout_user.jsp").forward(request, response);
-                    break;
                 default:
                     throw new IllegalArgumentException("sai " + path);
             }
