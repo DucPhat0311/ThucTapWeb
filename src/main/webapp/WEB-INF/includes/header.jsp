@@ -17,7 +17,7 @@
     <div>
         <ul id="navbar" class="m-0">
             <li><a href="${ctx}/home" class="${active=='index'?'active':'' }" >   <fmt:message key="nav.home" /></a></li>
-            <li><a href="${ctx}/shop" class="${active=='shop'?'active':'' }" ><fmt:message key="nav.shop" /></a></li>
+            <li><a href="${ctx}/shop?action=showCard" class="${active=='shop'?'active':'' }" ><fmt:message key="nav.shop" /></a></li>
             <li><a href="${ctx}/blog" class="${active=='blog'?'active':'' }" >   <fmt:message key="nav.blog" /></a></li>
             <li><a href="${ctx}/about" class="${active=='about'?'active':'' }" ><fmt:message key="nav.about" /></a></li>
             <li><a href="${ctx}/contact" class="${active=='contact'?'active':'' }" ><fmt:message key="nav.contact" /></a></li>
