@@ -6,6 +6,7 @@ import dao.UserDao;
 import model.*;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -207,6 +208,9 @@ public class UserController extends HttpServlet {
             case "/updateCurrentAddress":
                 updateCurrentAddress(request,response);
                 break;
+            case "/updateAccountInfo":
+                updateAccountInfo(request,response);
+                break;
 
             default:
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -255,6 +259,38 @@ public class UserController extends HttpServlet {
 
         response.setContentType("application/json");
         response.getWriter().write("{\"addressID\":" + getId +","+"\"count\":"+count + "}");
+
+    }
+    private void updateAccountInfo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // TODO Auto-generated method stub
+        request.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        String url ="/user/settings";
+
+        HttpSession session = request.getSession();
+        UserSession userSession = (UserSession) session.getAttribute("user");
+        UserDao user = new UserDao();
+
+        String getFirstname = request.getParameter("firstname");
+        String getLastname = request.getParameter("lastname");
+        String getBirthday = request.getParameter("birthday");
+        String getGender = request.getParameter("gender");
+
+
+        if(getGender !=null && getBirthday != null ){
+            LocalDate getDate = LocalDate.parse(getBirthday);
+            int gender = Integer.parseInt(getGender);
+            if(user.updateBirthdayOrGender(userSession.getIdUser(), getDate, gender,getFirstname,getLastname)) {
+                session.setAttribute("msg_type", "sus");
+                session.setAttribute("msg", "Update Success");
+
+            }else {
+                session.setAttribute("msg_type", "error");
+                session.setAttribute("msg", "Update Failed");
+            }
+        }
+
+        response.sendRedirect(request.getContextPath() +url);
 
     }
 
