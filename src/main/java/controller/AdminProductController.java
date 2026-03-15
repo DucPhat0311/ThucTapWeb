@@ -143,7 +143,11 @@ public class AdminProductController extends HttpServlet {
                         .toString();
 
         String getUploadFolder = request.getServletContext().getInitParameter("upload");
-        String uploadPath = request.getServletContext().getRealPath(getUploadFolder);
+        if (getUploadFolder == null || getUploadFolder.trim().isEmpty()) {
+            getUploadFolder = "uploads"; 
+        }
+        
+        String uploadPath = request.getServletContext().getRealPath("/") + getUploadFolder;
         String fileUrl = getUploadFolder + "/" + fileName;
 
         File uploadDir = new File(uploadPath);

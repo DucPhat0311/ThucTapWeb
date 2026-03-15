@@ -14,8 +14,13 @@ public class AdminUserDao extends BaseDao {
 
     public List<User> selectListUser() {
         List<User> list = new ArrayList<>();
-        String sql = "SELECT u.*, oa.SoDonDaMua FROM users u "
-                + "JOIN (SELECT COUNT(*) AS SoDonDaMua, o.userID FROM orders o) oa ON oa.userID = u.userID;";
+        String sql = "SELECT u.*, COALESCE(oa.SoDonDaMua, 0) AS SoDonDaMua " +
+                     "FROM users u " +
+                     "LEFT JOIN (" +
+                     "    SELECT userID, COUNT(*) AS SoDonDaMua " +
+                     "    FROM orders " +
+                     "    GROUP BY userID" +
+                     ") oa ON u.userID = oa.userID;";
         try (Connection conn = getConnection(); 
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
