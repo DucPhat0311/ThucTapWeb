@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
+         pageEncoding="UTF-8" isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}" />
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -24,13 +24,13 @@
          </a>
       </li>
    </ul>
-   
+
    <h3 class="sidebar-title mt-4"><fmt:message key="sidebar.orders"/></h3>
    <ul class="sidebar-menu list-unstyled">
-   
+
       <li>
          <a href="${ctx}/user/orders_his" class="${account eq 4 ? 'active' : ''}">
-            <i class="bi bi-check-circle"></i> <fmt:message key="sidebar.all"/>  
+            <i class="bi bi-check-circle"></i> <fmt:message key="sidebar.all"/>
          </a>
       </li>
           <li>
