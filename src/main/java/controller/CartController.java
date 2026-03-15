@@ -39,6 +39,7 @@ public class CartController extends HttpServlet {
                     List<Address> getAddress = address.selectAddressByUserID(userSession.getIdUser());
                     request.setAttribute("getAddress", getAddress);
                     request.getRequestDispatcher("/WEB-INF/views/checkout_user.jsp").forward(request, response);
+                    return;
                 default:
                     throw new IllegalArgumentException("sai " + path);
             }
