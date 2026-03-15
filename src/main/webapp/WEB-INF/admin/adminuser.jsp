@@ -80,7 +80,7 @@
                               <td>${u.email}</td>
                               <td>
                                  <c:choose>
-                                    <c:when test="${empty u.phone }">  <span class="badge text-danger">Not Yet</span> </c:when>
+                                    <c:when test="${empty u.phone }">  <span class="badge text-danger">Chưa cập nhật</span> </c:when>
                                     <c:otherwise>${u.phone}</c:otherwise>
                                  </c:choose>
                               </td>
@@ -88,9 +88,9 @@
                               <td>${u.createdAt}</td>
                               <td>
                                  <c:choose>
-                                    <c:when test="${u.status ==1 }"> <span class="badge text-bg-success">Normal</span> </c:when>
-                                    <c:when test="${u.status ==0 }"> <span class="badge text-bg-danger">Banned</span> </c:when>
-                                    <c:when test="${u.status ==2 }">  <span class="badge text-bg-warning">Temp Banned</span> </c:when>
+                                    <c:when test="${u.status ==1 }"> <span class="badge text-bg-success">Hoạt động</span> </c:when>
+                                    <c:when test="${u.status ==0 }"> <span class="badge text-bg-danger">Đã khoá</span> </c:when>
+                                    <c:when test="${u.status ==2 }">  <span class="badge text-bg-warning">Khoá tạm thời</span> </c:when>
                                  </c:choose>
                               </td>
                               <td>

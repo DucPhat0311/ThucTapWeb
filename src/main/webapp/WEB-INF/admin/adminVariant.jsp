@@ -86,7 +86,19 @@
                                             <td> <fmt:formatNumber value="${pv.finalPrice }" pattern="#,##0 VNĐ"/></td>
                                             <td>${pv.stock }</td>
                                             <td class=" fw-bold">${pv.sold }</td>
-                                            <td class=" fw-bold">${pv.status }</td>
+                                            <td class=" fw-bold">
+                                                <c:choose>
+                                                    <c:when test="${pv.status == 'ACTIVE'}">
+                                                        <span class="text-success fw-bold">Hoạt động</span>
+                                                    </c:when>
+                                                    <c:when test="${pv.status == 'LOCK'}">
+                                                        <span class="text-warning fw-bold">Khoá</span>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        ${pv.status}
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </td>
                                             <td>      <div>
                      				 			<a href="${ctx }/admin/variant/lock?id=${pv.variantID}" class="btn btn-warning">Khoá</a>
                      				 			<a href="${ctx }/admin/variant/unlock?id=${pv.variantID}" class="btn btn-success">Mở khoá</a>
@@ -194,11 +206,21 @@
                         <div class="card-body text-center">
                             <h6 class="text-muted mb-3">Trạng thái</h6>
                        
-                            <span class="badge bg-info text-dark fs-6 py-2 px-4 mb-3">${pp.status}</span>
+                            <c:choose>
+                                <c:when test="${pp.status == 'ACTIVE'}">
+                                    <span class="badge bg-info text-dark fs-6 py-2 px-4 mb-3">Hoạt động</span>
+                                </c:when>
+                                <c:when test="${pp.status == 'LOCK'}">
+                                    <span class="badge bg-warning text-dark fs-6 py-2 px-4 mb-3">Khoá</span>
+                                </c:when>
+                                <c:otherwise>
+                                    <span class="badge bg-info text-dark fs-6 py-2 px-4 mb-3">${pp.status}</span>
+                                </c:otherwise>
+                            </c:choose>
                            	<div> 
 								<h6>Công cụ</h6>
 								<div>
-									<button class="btn btn-primary mt-2"  data-bs-toggle="modal" data-bs-target="#variantModal"><i class="bi bi-plus"></i> Add</button>
+									<button class="btn btn-primary mt-2"  data-bs-toggle="modal" data-bs-target="#variantModal"><i class="bi bi-plus"></i> Thêm biến thể</button>
 									<!-- Modal -->
 										<div class="modal fade" id="variantModal" tabindex="-1"
 									     aria-labelledby="variantModalLabel" aria-hidden="true">

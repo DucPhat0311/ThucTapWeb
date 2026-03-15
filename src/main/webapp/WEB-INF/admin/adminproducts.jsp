@@ -89,15 +89,15 @@
                               <td>${p.quantityVariantCurr }</td>
                               <td>
                                  <c:choose >
-                                    <c:when test="${p.status == 'ACTIVE'}"> <span class="badge text-bg-success">${p.status }</span></c:when>
-                                    <c:when test="${p.status == 'LOCK'}"> <span class="badge text-bg-warning">${p.status }</span></c:when>
+                                    <c:when test="${p.status == 'ACTIVE'}"> <span class="badge text-bg-success">Hoạt động</span></c:when>
+                                    <c:when test="${p.status == 'LOCK'}"> <span class="badge text-bg-warning">Khoá</span></c:when>
                                  </c:choose>
                               </td>
                               <td>
                                  <div>
-                                    <a href="${ctx }/admin/product/lock?id=${p.productID}" class="btn btn-warning">Lock</a>
-                                    <a href="${ctx }/admin/product/unLock?id=${p.productID}" class="btn btn-success">Unlock</a>
-                                  <button data-productid="${p.productID}" data-bs-toggle="modal" onclick="event.stopPropagation();loadProducts('${ctx}',this);" data-bs-target="#productModalModify" class="btn btn-danger">  Modify</button>
+                                    <a href="${ctx }/admin/product/lock?id=${p.productID}" class="btn btn-warning">Khoá</a>
+                                    <a href="${ctx }/admin/product/unLock?id=${p.productID}" class="btn btn-success">Mở khoá</a>
+                                  <button data-productid="${p.productID}" data-bs-toggle="modal" onclick="event.stopPropagation();loadProducts('${ctx}',this);" data-bs-target="#productModalModify" class="btn btn-danger">  Sửa</button>
                                     
                                  </div>
                               </td>
