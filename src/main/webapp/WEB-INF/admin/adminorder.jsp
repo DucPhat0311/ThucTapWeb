@@ -53,7 +53,7 @@
             <!-- Recent Orders -->
             <div class="card">
                 <div class="card-header">
-                    <h3>List orders</h3>
+                    <h3>Danh sách đơn hàng</h3>
                     <div class="search-box">
                         <input type="text" placeholder="Tìm kiếm...">
                     </div>
@@ -71,94 +71,55 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>#DH-001</td>
-                                <td>Nguyễn Văn An</td>
-                                <td>01/03/2026</td>
-                                <td>1.250.000đ</td>
-                                <td>Đã thanh toán</td>
-                                <td>Đã giao</td>
-                            </tr>
-                            <tr>
-                                <td>#DH-002</td>
-                                <td>Trần Thị Bình</td>
-                                <td>02/03/2026</td>
-                                <td>850.000đ</td>
-                                <td>COD</td>
-                                <td>Đang giao</td>
-                            </tr>
-                            <tr>
-                                <td>#DH-003</td>
-                                <td>Lê Hoàng Cường</td>
-                                <td>03/03/2026</td>
-                                <td>2.100.000đ</td>
-                                <td>Đã thanh toán</td>
-                                <td>Chờ xử lý</td>
-                            </tr>
-                            <tr>
-                                <td>#DH-004</td>
-                                <td>Phạm Minh Đức</td>
-                                <td>03/03/2026</td>
-                                <td>450.000đ</td>
-                                <td>COD</td>
-                                <td>Đang giao</td>
-                            </tr>
-                            <tr>
-                                <td>#DH-005</td>
-                                <td>Hoàng Thị Hoa</td>
-                                <td>04/03/2026</td>
-                                <td>1.800.000đ</td>
-                                <td>Đã thanh toán</td>
-                                <td>Đã giao</td>
-                            </tr>
-                            <tr>
-                                <td>#DH-006</td>
-                                <td>Võ Thanh Khang</td>
-                                <td>04/03/2026</td>
-                                <td>620.000đ</td>
-                                <td>Chưa thanh toán</td>
-                                <td>Chờ xử lý</td>
-                            </tr>
-                            <tr>
-                                <td>#DH-007</td>
-                                <td>Ngô Thị Lan</td>
-                                <td>05/03/2026</td>
-                                <td>980.000đ</td>
-                                <td>COD</td>
-                                <td>Đã hủy</td>
-                            </tr>
-                            <tr>
-                                <td>#DH-008</td>
-                                <td>Đặng Văn Minh</td>
-                                <td>05/03/2026</td>
-                                <td>1.550.000đ</td>
-                                <td>Đã thanh toán</td>
-                                <td>Đang giao</td>
-                            </tr>
-                            <tr>
-                                <td>#DH-009</td>
-                                <td>Bùi Thị Ngọc</td>
-                                <td>06/03/2026</td>
-                                <td>720.000đ</td>
-                                <td>Chưa thanh toán</td>
-                                <td>Chờ xử lý</td>
-                            </tr>
-                            <tr>
-                                <td>#DH-010</td>
-                                <td>Trịnh Quốc Phong</td>
-                                <td>06/03/2026</td>
-                                <td>3.200.000đ</td>
-                                <td>Đã thanh toán</td>
-                                <td>Đã giao</td>
-                            </tr>
 
-                        </tbody>
-                    </table>
-                </div>
+            <c:forEach var="o1" items="${orderList }">
+            <tr class="order-row" data-href="${ctx}/admin/order/details?id=${o1.orderID}" style="cursor: pointer;">
+                <td class="fw-bold">#${o1.orderID}</td>
+                <td>
+                    <div class="d-flex flex-column">
+                        <span class="fw-bold">${o1.user.firstName } ${o1.user.lastName }</span>
+                        <small class="text-muted">${o1.user.phone }</small>
+                    </div>
+                </td>
+                <td>${o1.createdAt }</td>
+                <td class="fw-bold text-primary"> <fmt:formatNumber value="${o1.totalAmount }" pattern="#,##0 VNĐ"/></td>
+                <td>
+                    <span class="badge border text-dark fw-normal">${o1.paymentMethod }</span>
+                </td>
+                <td>
+                <c:choose>
+                	<c:when test="${o1.status == 'PENDING'}"><span class="badge text-bg-secondary"> ${o1.status }</span> </c:when>
+                	 <c:when test="${o1.status == 'SHIPPING'}"><span class="badge text-bg-warning"> ${o1.status }</span> </c:when>
+                	 <c:when test="${o1.status == 'SUCCESS'}"><span class="badge text-bg-success"> ${o1.status }</span> </c:when>
+                	 <c:when test="${o1.status == 'CANCEL'}"><span class="badge text-bg-danger"> ${o1.status }</span> </c:when>
+                	 
+                </c:choose>
+                  
+           
+                </td>
+                 
+           
+            </tr>
+            </c:forEach>
+            
+        </tbody>
+    </table>
+</div>
             </div>
+    </div>
 
-        <script src="javascript.js" defer></script>
+        </div>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" ></script>
+	<script>
 
+	document.querySelectorAll(".order-row").forEach(row => {
+	    row.addEventListener("click", function () {
+	        window.location.href = this.dataset.href;
+	    });
+	});
+	
+	
+	</script>
 </body>
 
 </html>
