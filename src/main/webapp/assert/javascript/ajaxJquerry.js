@@ -11,14 +11,11 @@ function sendDataCart(variantId, quanity) {
             var cleanCartSize = cartSize.toString().trim();
 
             // Cập nhật số
-            $("#cart_count_mobile").text(cleanCartSize);
             $("#cart_count").text(cleanCartSize);
 
             if (cleanCartSize > 0) {
-                $("#cart_count_mobile").show();
                 $("#cart_count").show();
             } else {
-                $("#cart_count_mobile").hide();
                 $("#cart_count").hide();
             }
 
