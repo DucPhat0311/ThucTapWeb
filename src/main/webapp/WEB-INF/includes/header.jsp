@@ -62,9 +62,4 @@
 
     </div>
 
-    <div id="mobile">
-        <a href="${ctx}/cart" class="${active=='cart'?'active':'' }" data-page="cart" ><i class="bi bi-cart"></i></a>
-        <i id="bar" class="fas fa-outdent"></i>
-        <span id="cart_count_mobile"    >${sessionScope.Cart != null ? sessionScope.Cart.size : 0}</span>
-    </div>
 </section>
