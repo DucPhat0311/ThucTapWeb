@@ -66,13 +66,16 @@
                                 <th>Khách hàng</th>
                                 <th>Email</th>
                                 <th>SĐT</th>
-                                <th>Số đơn hàng đã mua</th>
+                                <th>Số đơn hàng</th>
+                                <th>Ngày tạo</th>
+                                <th>Trạng thái</th>
+                                <th>Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
                        <c:forEach var="u" items="${userList}">
                            <tr>
-                              <td>#User-${u.idUser}</td>
+                              <td class="fw-bold">#User-${u.idUser}</td>
                               <td>${u.firstName } ${u.lastName }</td>
                               <td>${u.email}</td>
                               <td>
@@ -87,17 +90,15 @@
                                  <c:choose>
                                     <c:when test="${u.status ==1 }"> <span class="badge text-bg-success">Normal</span> </c:when>
                                     <c:when test="${u.status ==0 }"> <span class="badge text-bg-danger">Banned</span> </c:when>
-                                    <c:when test="${u.status ==2 }">  <span class="badge text-bg-warning">temporarily banned</span> </c:when>
+                                    <c:when test="${u.status ==2 }">  <span class="badge text-bg-warning">Temp Banned</span> </c:when>
                                  </c:choose>
                               </td>
                               <td>
-                                 <div>
-                                    
-                    <a href="${ctx }/admin/user/delete?id=${u.idUser}" class="btn btn-danger"><i class="fa-solid fa-user-xmark"></i> Xóa tài khoản</a>
-                    <a href="${ctx }/admin/user/ban?id=${u.idUser}" class="btn btn-warning"><i class="fa-solid fa-ban"></i> Khóa tài khoản</a>
-                    <a href="${ctx }/admin/user/unBan?id=${u.idUser}" class="btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Mở khóa</a>
-                    <a href="${ctx }/admin/user/add?id=${u.idUser}" class="btn btn-success"><i class="fa-solid fa-user-plus"></i> Thêm tài khoản</a>
-                    <a href="${ctx }/admin/user/changePassword?id=${u.idUser}" class="btn btn-secondary"><i class="fa-solid fa-key"></i> Đổi mật khẩu</a>
+                                 <div class="d-flex gap-2 flex-wrap" style="max-width: 250px;">
+                    <a title="Xóa tài khoản" href="${ctx }/admin/user/delete?id=${u.idUser}" class="btn btn-danger btn-sm"><i class="fa-solid fa-user-xmark"></i> Xóa</a>
+                    <a title="Khóa tài khoản" href="${ctx }/admin/user/ban?id=${u.idUser}" class="btn btn-warning btn-sm"><i class="fa-solid fa-ban"></i> Khóa</a>
+                    <a title="Mở khóa" href="${ctx }/admin/user/unBan?id=${u.idUser}" class="btn btn-primary btn-sm"><i class="fa-solid fa-unlock"></i> Mở</a>
+                    <a title="Đổi mật khẩu" href="${ctx }/admin/user/changePassword?id=${u.idUser}" class="btn btn-secondary btn-sm"><i class="fa-solid fa-key"></i> Đổi MK</a>
             </div>
                               </td>
                            </tr>
@@ -106,6 +107,14 @@
                   </table>
                </div>
             </div>
+            
+            <section class="mt-4">
+               <h6>Công cụ</h6>
+               <div class="user-action-buttons justify-content-start">
+                  <a href="${ctx }/admin/user/add" class="btn btn-success"><i class="fa-solid fa-user-plus"></i> Thêm tài khoản mới</a>
+               </div>
+            </section>
+            
          </div>
       </div>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" ></script>

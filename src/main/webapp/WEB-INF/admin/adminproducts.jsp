@@ -68,6 +68,7 @@
                                 <th>Giá</th>
                                 <th>Còn lại</th>
                                 <th>Trạng thái</th>
+                                <th>Hành động</th>
                             </tr>
                         </thead>
                         <tbody>

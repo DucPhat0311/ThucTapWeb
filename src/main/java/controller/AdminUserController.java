@@ -52,6 +52,9 @@ public class AdminUserController extends HttpServlet {
                 deleteUser(id, dao);
                 response.sendRedirect(request.getContextPath() + "/admin/user");
                 break;
+            case "/add":
+            	response.sendRedirect(request.getContextPath() + "/login/signup");
+            	break;
             default:
                 response.sendRedirect(request.getContextPath() + "/admin/user");
                 break;
