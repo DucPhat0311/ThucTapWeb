@@ -49,6 +49,29 @@
       <button class="btn btn-success"><fmt:message key="shop.search.btn" /></button>
     </form>
 
+    <form method="get" action="${ctx}/shop">
+
+      <input type="hidden" name="action" value="filter"/>
+
+      <input type="text" name="keyword" placeholder="Tìm kiếm...">
+
+      <!-- Category -->
+      <h5>Category</h5>
+      <input type="checkbox" name="category" value="1"> Áo Sơ Mi
+      <input type="checkbox" name="category" value="2"> Áo Thun
+      <input type="checkbox" name="category" value="3"> Áo Blouse
+      <input type="checkbox" name="category" value="4"> Áo Khoác
+      <input type="checkbox" name="category" value="5"> Quần Short
+      <input type="checkbox" name="category" value="6"> Quần Dài
+
+      <!-- Price -->
+      <h5>Price</h5>
+      <input type="number" name="minPrice" placeholder="Min">
+      <input type="number" name="maxPrice" placeholder="Max">
+
+      <button type="submit">Lọc</button>
+    </form>
+
   </div>
 
   <div class="offcanvas offcanvas-start" tabindex="-1"
