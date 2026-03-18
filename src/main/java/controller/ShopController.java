@@ -42,6 +42,9 @@ public class ShopController extends HttpServlet {
             case "search":
                 searchHandle(request, response);
                 break;
+            case "filter":
+                filterHandle(request,response);
+                break;
         }
     }
 
@@ -58,7 +61,24 @@ public class ShopController extends HttpServlet {
         request.setAttribute("ListProducts", productsSearch);
 
         getServletContext().getRequestDispatcher(url).forward(request, response);
+    }
 
+    private void filterHandle(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        request.setCharacterEncoding("UTF-8");
+
+        String keyword = request.getParameter("keyword");
+        String[] categories = request.getParameterValues("category");
+        String minPrice = request.getParameter("minPrice");
+        String maxPrice = request.getParameter("maxPrice");
+
+        ShopDao dao = new ShopDao();
+
+        List<Products> list = dao.filterProducts(keyword, categories, minPrice, maxPrice);
+
+        request.setAttribute("ListProducts", list);
+        request.getRequestDispatcher("/WEB-INF/views/shop.jsp").forward(request, response);
     }
 
 
